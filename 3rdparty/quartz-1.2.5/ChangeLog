@@ -1,0 +1,15 @@
+02 Jun 2013 :
+	. Complete scheduler rewriting [yhf]
+
+27 Feb 2013 :
+	. Add "quart:apply_at" to mimic the Unix "at" command [yhf,mab]
+	. Add handy shortcuts to define common TimeSpec (ex. daily, weekly, etc.) [mab]
+	. Make Dialyzer happy with "quartz.erl" [laz,yhf]
+        . Fix typo in documentation [yhf]
+
+18 Feb 2013 :
+	. Fix bug when using 'range generator' with the 'Year' field [mab,yhf]
+        . Enhance documentation and add new tutorials [team]
+
+07 Jan 2013 :
+        . Initial packaging for the community [yhf]
