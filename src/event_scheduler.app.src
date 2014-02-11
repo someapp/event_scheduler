@@ -1,0 +1,12 @@
+{application, event_scheduler,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { event_scheduler_app, []}},
+  {env, []}
+ ]}.
