@@ -1,0 +1,3 @@
+{application,quartz}.
+{packages,[]}.
+{modules,[quartz,quartz_sched]}.

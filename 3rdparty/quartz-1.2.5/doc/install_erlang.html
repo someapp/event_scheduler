@@ -1,0 +1,392 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Requirements &mdash; QUARTZ 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/wsdk.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QUARTZ 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="QUARTZ Quick Start" href="quick_start.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="quick_start.html" title="QUARTZ Quick Start"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="requirements">
+<h1>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="install-erlang">
+<span id="id1"></span><h2>Install Erlang<a class="headerlink" href="#install-erlang" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">First, the <a class="reference external" href="http://www.erlang.org/">Erlang</a> programming language needs to be installed.</div>
+<div class="line"><strong>QUARTZ</strong> requires Erlang version <strong>R15B01</strong> (recommended) or above.</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Depending on your architecture (32/64-bit), download the right binary for Windows at:</div>
+<div class="line"><a class="reference external" href="http://www.erlang.org/download.html">http://www.erlang.org/download.html</a></div>
+</div>
+<p>Then, follow the standard install procedure using the wizzard.</p>
+<p><strong>Step 1/4</strong></p>
+<div class="figure">
+<img alt="Install wizard for Windows" src="_images/install_win1.png" style="height: 400px;" />
+</div>
+<div class="line-block">
+<div class="line">Install wizard for Windows</div>
+</div>
+<div class="line-block">
+<div class="line">Please, make sure the <strong>Microsoft Visual C++ 2010 Redistributable Package</strong> has been installed on your system correctly.</div>
+<div class="line">For this:</div>
+<div class="line-block">
+<div class="line">a. check the <span class="boldblue">Microsoft DDL&#8217;s (present)</span> checkbox in the Erlang installer.</div>
+<div class="line">b. or manually download the package from the Microsoft&#8217;s download center <a class="reference external" href="http://www.microsoft.com/en-us/download/details.aspx?id=5555">website</a>.</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<p><strong>Step 2/4</strong></p>
+<div class="figure">
+<img alt="Change the default install folder name" src="_images/install_win2.png" style="height: 400px;" />
+</div>
+<div class="line-block">
+<div class="line">Pay attention to the <strong>destination folder</strong> name and select one <strong>without spaces</strong>.</div>
+</div>
+<div class="line-block">
+<div class="line">Avoid:  &#8220;c:\Program Files&#8221;,  &#8220;c:\Program  Files (x86)&#8221;,  &#8220;C:\Program Files (x64)&#8221;, etc.</div>
+<div class="line">and prefer: <strong>c:\erl5.9.1\</strong> for <span class="boldblue">Win32</span> and <strong>c:\x64\erl5.9.1\</strong> for <span class="boldblue">Win64</span>.</div>
+</div>
+<p><strong>Step 3/4</strong></p>
+<div class="figure">
+<img alt="Adjust your **Path** system environment variable" src="_images/install_win3.png" style="height: 550px;" />
+</div>
+<div class="line-block">
+<div class="line">Adjust your <strong>Path</strong> system environment variable by appending the fullpath to</div>
+<div class="line">Erlang&#8217;s binaries: <span class="boldblue">c:\erl5.9.1\bin;</span></div>
+</div>
+<div class="line-block">
+<div class="line">Now, you can run the Erlang&#8217;s VM from everywhere.</div>
+</div>
+<p><strong>Step 4/4</strong></p>
+<div class="figure">
+<img alt="check everything's fine" src="_images/install_win4.png" style="height: 400px;" />
+</div>
+<div class="line-block">
+<div class="line">The preferred way to start the Erlang system for interactive use on Windows is:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; werl</pre>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line">Linux installation could be performed by compiling Erlang from source (advanced users)</div>
+<div class="line">or by installing <strong>pre-compiled binaries</strong>. This second option is <strong>highly recommended</strong>.</div>
+</div>
+<div class="line-block">
+<div class="line">Binaries  (.rpm, .deb) for  all major  distributions (Debian,  Ubuntu, CentOS, Fedora,</div>
+<div class="line">etc.) are available at:</div>
+<div class="line"><a class="reference external" href="http://www.erlang-solutions.com/section/132/download-erlang-otp">http://www.erlang-solutions.com/section/132/download-erlang-otp</a></div>
+</div>
+<img alt="Binaries for Linux" src="_images/install_linux_1.png" style="height: 400px;" />
+<div class="line-block">
+<div class="line">Repositories are also available to use with your favourite packages manager.</div>
+</div>
+<img alt="Repositories for Linux" src="_images/install_linux_2.png" style="height: 400px;" />
+<div class="line-block">
+<div class="line">Once installed, your Erlang VM should be under:</div>
+</div>
+<div class="highlight-python"><pre>/usr/local/lib/erlang</pre>
+</div>
+<div class="line-block">
+<div class="line">Append this to your <strong>PATH environment</strong> variable:</div>
+</div>
+<div class="highlight-python"><pre>$ export PATH=$PATH:/usr/local/lib/erlang/bin</pre>
+</div>
+<div class="line-block">
+<div class="line">To  make this  persistent  (system wide  or  user specific),  use  one of  the
+following</div>
+<div class="line">files or better check with your distribution:</div>
+</div>
+<div class="highlight-python"><pre>/etc/profile.local
+/etc/bash.bashrc.local
+$HOME/.profile
+$HOME/.bashrc</pre>
+</div>
+<div class="line-block">
+<div class="line">Then, give it a try;</div>
+</div>
+<div class="highlight-python"><pre>$ erl</pre>
+</div>
+<img alt="Hello Web Archiving on Linux" src="_images/install_linux_3.png" style="height: 350px;" />
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="mac-osx">
+<h3>Mac OSX<a class="headerlink" href="#mac-osx" title="Permalink to this headline">¶</a></h3>
+<div class="line-block">
+<div class="line"><strong>DMG</strong> install wizard is also provided to Mac users. The install procedure is almost identical to Linux.</div>
+</div>
+<div class="line-block">
+<div class="line">Grab one that fits you at:</div>
+<div class="line"><a class="reference external" href="http://www.erlang-solutions.com/section/132/download-erlang-otp">http://www.erlang-solutions.com/section/132/download-erlang-otp</a></div>
+</div>
+<img alt="DMG for OSX" src="_images/install_osx_1.png" style="height: 350px;" />
+<div class="line-block">
+<div class="line">Then, run the installer.</div>
+</div>
+<img alt="run OSX dmg installer" src="_images/install_osx_2.png" style="height: 350px;" />
+<div class="line-block">
+<div class="line">Once installed, your Erlang VM should be under:</div>
+</div>
+<div class="highlight-python"><pre>/usr/local/lib/erlang</pre>
+</div>
+<div class="line-block">
+<div class="line">Append this to your <strong>PATH environment</strong> variable (see above how to make it persistent):</div>
+</div>
+<div class="highlight-python"><pre>$ export PATH=$PATH:/usr/local/lib/erlang/bin</pre>
+</div>
+<div class="line-block">
+<div class="line">Finaly, check everything&#8217;s fine:</div>
+</div>
+<div class="highlight-python"><pre>$ erl</pre>
+</div>
+<img alt="check Erlang on OSX" src="_images/install_osx_3.png" style="height: 350px;" />
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="topic">
+<p class="topic-title first">Other Operating Systems</p>
+<p>Drop us a line if interested to use <strong>QUARTZ</strong> on
+<em>FreeBSD</em>, <em>SmartOS</em>, etc.
+We&#8217;ll provide you with a detailed instructions and binaries.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="take-a-breath">
+<h3>Take a breath<a class="headerlink" href="#take-a-breath" title="Permalink to this headline">¶</a></h3>
+<div class="sidebar">
+<p class="first sidebar-title">Wasn&#8217;t that hard? Right?</p>
+<ul class="last simple">
+<li>You just installed <a class="reference external" href="http://www.erlang.org/">Erlang</a></li>
+<li>Erlang is different from any other language environment you&#8217;ve used before</li>
+<li>An Erlang application is a <em>system</em> of small, independent components</li>
+<li>You can build incredibly complex, robust systems using small, independent components</li>
+<li>The <tt class="docutils literal"><span class="pre">hello</span></tt> module (on the left) is an example of a small, independent component</li>
+</ul>
+</div>
+<div class="line-block">
+<div class="line">Lets start with a simple demo, the famous &#8220;Hello Web Archiving&#8221;.</div>
+<div class="line">Save the following code in a file called: <strong>hello.erl</strong></div>
+</div>
+<div class="highlight-erlang"><div class="highlight"><pre><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">hello</span><span class="p">).</span>
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">webarch</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
+
+<span class="nf">webarch</span><span class="p">()</span> <span class="o">-&gt;</span>
+<span class="hll">    <span class="nn">io</span><span class="p">:</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;QUARTZ says: Hello Web Archiving!</span><span class="si">~n</span><span class="s">&quot;</span><span class="p">),</span>
+</span>    <span class="n">halt</span><span class="p">().</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">Then, compile and run:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; erlc hello.erl</pre>
+</div>
+<div class="highlight-python"><pre>c:\&gt; erl -noshell -s hello webarch
+QUARTZ says: Hello Web Archiving!</pre>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="any-text-editor-for-my-code">
+<h2>Any text editor for my code?<a class="headerlink" href="#any-text-editor-for-my-code" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">All major IDEs and text editors provide support for Erlang code.</div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="http://www.eclipse.org/">Eclipse</a> IDE with <a class="reference external" href="http://erlide.sourceforge.net/erlide.html">Erlide</a> plugin</li>
+<li><a class="reference external" href="http://netbeans.org/">NetBeans</a> IDE with <a class="reference external" href="http://sourceforge.net/projects/erlybird/">Erlybird</a> plugin</li>
+<li><a class="reference external" href="http://www.jetbrains.com/">IntelliJ</a> IDE with <a class="reference external" href="http://plugins.jetbrains.com/plugin/index?pr=&amp;pluginId=7083">IntelliJErlang</a> plugin</li>
+<li><a class="reference external" href="http://www.scintilla.org/SciTE.html">SciTE</a> editor</li>
+<li><a class="reference external" href="http://www.roberthorvick.com/2009/07/08/syntax-highlighing-for-erlang-in-notepad/">NotePad++</a> editor</li>
+<li><a class="reference external" href="http://www.jedit.org/index.php?page=features">JEdit</a> editor</li>
+<li><a class="reference external" href="http://www.erlang.org/doc/man/erlang.el.html">Emacs</a></li>
+<li><a class="reference external" href="https://github.com/jimenezrick/vimerl">Vi</a></li>
+<li><a class="reference external" href="http://www.activestate.com/komodo-edit">KomodoEdit</a>, a fast, smart, free and open-source code editor</li>
+<li><a class="reference external" href="http://www.sublimetext.com/2">SublimText2</a> editor with <a class="reference external" href="https://github.com/ostinelli/SublimErl">SublimErl</a> plugin: easy to use, lightweight with binaries for Windows, Linux and Mac OSX.</li>
+</ul>
+<div class="figure">
+<img alt="SublimText2 in action" src="_images/sublimtext2.png" />
+</div>
+<div class="line-block">
+<div class="line">SublimText2 in action</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="where-can-i-get-more-information">
+<h2>Where can I get more information?<a class="headerlink" href="#where-can-i-get-more-information" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="http://www.erlang.org/">Erlang</a> is a simple functional programming language.  Even though the learning</div>
+<div class="line">curve is bit steep, you will get more out of it since you will be learning a</div>
+<div class="line">functional programming language.</div>
+</div>
+<div class="line-block">
+<div class="line">Also, since Erlang was specifically designed to create reliable, highly</div>
+<div class="line">concurrent systems, you will learn plenty about creating highly scalable software.</div>
+</div>
+<div class="line-block">
+<div class="line">Rather few, but excellent <a class="reference external" href="http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&amp;field-keywords=erlang">books</a> are available out there.</div>
+</div>
+<div class="topic">
+<p class="topic-title first">Learn You Some Erlang (LYSE)</p>
+<p><a class="reference external" href="http://learnyousomeerlang.com/">LYSE</a> website provides one of the best, <em>free</em>,
+complete, and well presented <strong>Erlang tutorials</strong> to quickly get started.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="help">
+<h2>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference external" href="http://aleph-archives.com">Aleph Archives</a> is providing a <a class="reference external" href="http://webarchivingbucket.com/forum/">forum</a> in which you can  find valuable QUARTZ topics, share ideas,</div>
+<div class="line">and ask Erlang questions related to QUARTZ.</div>
+</div>
+<p><img alt="erlang logo" src="_images/erlang_logo.png" style="width: 64px; height: 64px;" /></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">QUARTZ Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">QUARTZ Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Bugs Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3rdlic.html">Third Party Libraries</a></li>
+</ul>
+<h3>API Reference</h3>
+<ul class="current">
+<b>Modules</b>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Overview</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz.html">quartz</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz_sched.html">quartz_sched</a></li>
+<br/>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="quick_start.html" title="QUARTZ Quick Start"
+             >next</a></li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Aleph Archives.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+
+<!-- Adding Google Analytics to Sphinx Docs: -->
+<!-- http://ericholscher.com/blog/2009/apr/5/adding-google-analytics-sphinx-docs/ -->
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-18218047-3']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+
+  </body>
+</html>

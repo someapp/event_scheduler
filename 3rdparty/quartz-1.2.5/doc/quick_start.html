@@ -1,0 +1,236 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>QUARTZ Quick Start &mdash; QUARTZ 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/wsdk.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QUARTZ 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="QUARTZ Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Requirements" href="install_erlang.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="tutorial.html" title="QUARTZ Tutorial"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="install_erlang.html" title="Requirements"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quartz-quick-start">
+<h1>QUARTZ Quick Start<a class="headerlink" href="#quartz-quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line">Deploying <strong>QUARTZ</strong> is as simple as copying a folder to your disk.</div>
+<div class="line">But before, ensure the Erlang programming language is correctly installed (see <a class="reference internal" href="install_erlang.html#install-erlang"><em>Install Erlang</em></a>).</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Depending on your architecture (32/64-bit), download the right <strong>QUARTZ</strong> version for Windows at:</div>
+<div class="line"><a class="reference external" href="http://webarchivingbucket.com/">http://webarchivingbucket.com/</a></div>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Unzip on Windows?</p>
+<div class="last line-block">
+<div class="line">You can uncompress the .ZIP with <strong>Peazip</strong>:</div>
+<div class="line"><a class="reference external" href="http://peazip.sourceforge.net/">http://peazip.sourceforge.net/</a></div>
+</div>
+</div>
+<p>Let&#8217;s say you want to install <strong>QUARTZ</strong> version <strong>1.2.5</strong> on <span class="boldblue">Win32</span>:</p>
+<ol class="arabic">
+<li><p class="first">unzip the file <strong>quartz-1.2.5.zip</strong></p>
+</li>
+<li><p class="first">then, copy the resulting folder <strong>quartz-1.2.5</strong> inside the directory <span class="boldblue">c:\erl5.9.1\lib</span></p>
+<div class="figure">
+<img alt="QUARTZ install on Windows" src="_images/quartz-win.png" style="height: 350px;" />
+</div>
+<div class="line-block">
+<div class="line">QUARTZ install on Windows</div>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line">Check that everything&#8217;s fine:</div>
+</div>
+<blockquote>
+<div><div class="highlight-python"><pre>c:\&gt; erl -noshell -eval 'io:format("~s~n", [quartz:version()]), halt().'</pre>
+</div>
+<p>This command should print <span class="boldblue">1.2.5</span></p>
+</div></blockquote>
+<p>You&#8217;re done!</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Same apply to <strong>Linux</strong>.</div>
+</div>
+<p>Let&#8217;s say you want to install the <strong>64-bit</strong> QUARTZ version <strong>1.2.5</strong>:</p>
+<ol class="arabic">
+<li><p class="first">download the right <strong>QUARTZ</strong> version for your architecture (32/64-bit):</p>
+<div class="highlight-python"><pre>$ wget http://webarchivingbucket.com/quartz/linux/64bit/quartz-1.2.5.tgz</pre>
+</div>
+</li>
+<li><p class="first">extract and copy the directory under <span class="boldblue">/usr/local/lib/erlang/lib</span></p>
+<div class="highlight-python"><pre>$ su
+# tar xzvf quartz-1.2.5.tgz -C /usr/local/lib/erlang/lib
+# exit</pre>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line">Check that everything&#8217;s fine:</div>
+</div>
+<blockquote>
+<div><div class="highlight-python"><pre>$ erl -noshell -eval 'io:format("~s~n", [quartz:version()]), halt().'</pre>
+</div>
+<p>This command should print <span class="boldblue">1.2.5</span></p>
+</div></blockquote>
+<p>Done!</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="mac-osx">
+<h2>Mac OSX<a class="headerlink" href="#mac-osx" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Same apply to <strong>Mac OSX</strong>.</div>
+</div>
+<p>Let&#8217;s say you want to install the <strong>32-bit</strong> QUARTZ version <strong>1.2.5</strong>:</p>
+<ol class="arabic">
+<li><p class="first">download the right <strong>QUARTZ</strong> version your architecture (32/64-bit):</p>
+<div class="highlight-python"><pre>$ wget http://webarchivingbucket.com/quartz/osx/32bit/quartz-1.2.5.tgz</pre>
+</div>
+</li>
+</ol>
+<div class="sidebar">
+<p class="first sidebar-title">Enabling &#8220;root&#8221; user in Mac OS X</p>
+<p class="last">If you are not familiar with the meaning of &#8220;root user,&#8221; read this:
+<a class="reference external" href="http://support.apple.com/kb/ht1528">http://support.apple.com/kb/ht1528</a></p>
+</div>
+<ol class="arabic" start="2">
+<li><p class="first">change to <strong>root</strong>, extract and copy the directory under <span class="boldblue">/usr/local/lib/erlang/lib</span></p>
+<div class="highlight-python"><pre>$ su
+# tar xzvf quartz-1.2.5.tgz -C /usr/local/lib/erlang/lib
+# exit</pre>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line">Check that everything&#8217;s fine:</div>
+</div>
+<blockquote>
+<div><div class="highlight-python"><pre>$ erl -noshell -eval 'io:format("~s~n", [quartz:version()]), halt().'</pre>
+</div>
+<p>This command should print <span class="boldblue">1.2.5</span></p>
+</div></blockquote>
+<p>Done!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_erlang.html">Requirements</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">QUARTZ Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">QUARTZ Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Bugs Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3rdlic.html">Third Party Libraries</a></li>
+</ul>
+<h3>API Reference</h3>
+<ul class="current">
+<b>Modules</b>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Overview</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz.html">quartz</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz_sched.html">quartz_sched</a></li>
+<br/>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="tutorial.html" title="QUARTZ Tutorial"
+             >next</a></li>
+        <li class="right" >
+          <a href="install_erlang.html" title="Requirements"
+             >previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Aleph Archives.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+
+<!-- Adding Google Analytics to Sphinx Docs: -->
+<!-- http://ericholscher.com/blog/2009/apr/5/adding-google-analytics-sphinx-docs/ -->
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-18218047-3']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+
+  </body>
+</html>

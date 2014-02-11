@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Module quartz_sched</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module quartz_sched</h1>
+<ul class="index"><li><a href="#description">Description</a></li><li><a href="#types">Data Types</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>Quartz Time Scheduler.
+<p>Copyright © 2010-2013 ALEPH ARCHIVES Ltd. All rights reserved.</p>
+
+<p><b>Version:</b> 1.1.0</p>
+<p><b>Authors:</b> Aleph Archives Ltd. [<em>web site:</em> <tt><a href="http://aleph-archives.com/" target="_top">http://aleph-archives.com/</a></tt>].</p>
+
+<h2><a name="description">Description</a></h2><p>Quartz Time Scheduler.</p>
+ 
+  <p>Quartz jobs can be scheduled "a la CRON" by using the methods
+  quartz:schedule/4/5 methods. These calls take as a first
+  argument (or second for schedule/5) a "Time Specification" that is used
+  to compute the next time the job should be launched on.</p>
+ 
+  The specification is a tuple of the form:
+  <pre>{ {Year,Month,Day}, WeekDay, {Hour, Minute, Second} }</pre>
+ 
+  Alternatively the WeekDay can be ommited for simplification:
+  <pre>{ {Year,Month,Day}, {Hour, Minute, Second} }</pre>
+ 
+  Each field has a fixed range of allowed values defined as:<br>
+  <pre>
+ 
+      field          allowed values
+      -----          --------------
+      minute         0-59
+      hour           0-23
+      day of week    1-7 (1 is Monday, or use names : mon, tue, wed, thu, fri, sat, sun)
+      day            1-31
+      month          1-12
+      year           0-2200 (don't expect anything more than that to be useful)
+   </pre>
+ 
+  <p>The most basic "Time Specification" is any valid calendar:datetime() tuple.</p>
+ 
+  Example: A job scheduled using the specification : <pre>{{2012, 12, 21}, {0, 0, 0}}</pre><p>  
+(probably by a Mayan shaman who wanted to unleach the wrath of an ancient prophecy)  
+would have been started by quartz exactly the 21st Dec, 2012 at 00:00:00.</p>
+ 
+  <p>To allow recurrence, all fields can take values with special semantics.
+  The combination of regular and special values is powerful and flexible enough to express complex schedules.
+  The special values are described below:</p>
+ 
+  The <b>wildcard</b> (the atom <b>'*'</b>)
+  <ul>
+  <li>{{'*', 12, 21}, {0, 0, 0}} will start the job the 21st Dec of each year at 00:00:00</li>
+  <li>{{'*', '*', '*'}, {0, 0, 0}} will start the job each day at 00:00:00</li>
+  <li>{{'*', '*', '*'}, sat, {0, 0, 0}} will start the job each Saturday at 00:00:00</li>
+  </ul>
+ 
+  The <b>range</b> notation ({Start , End} or {Start, End, Step})
+  <ul>
+  <li>{{{2012, 2014}, 12, 21}, {0, 0, 0}} will start the job the 21st Dec of 2012,2013,2014 at 00:00:00</li>
+  <li>{{'*', '*', '*'}, {{0,23,2}, 0, 0}} will start the job each day at the even hours (0,2,4...,20,22)</li>
+  <li>{{'*', '*', '*'}, {{22,1}, 0, 0}} wrapping ranges are possible (the increment is also possible <b>for all fields but day</b>), this expression will schedule the job for 22h, 23h, 0h and 1h of each day</li>
+  </ul>
+ 
+  The <b>list</b> can be used to restrict a field to a specific list of values
+  <ul>
+  <li>{[2012,2015,2019], 12, 21}, {0, 0, 0}} will start the job the 21st Dec of 2012,2015,2019 at 00:00:00</li>
+  <li>{{'*', '*', '*'}, {{[0,12],'*','*'}} will start the job each day at midnight and noon</li>
+  <li>{{'*', '*', '*'}, {[{0,3},{5,7}], 0, 0}} list of ranges are also supported</li>
+  </ul>
+ 
+  <b>'last'</b> means the upper value of the range allowed for the field
+  <ul>
+  <li>{{'*', 2, last}, {0, 0, 0}} will start the job the last day of Feb (28th or 29th) of each year</li>
+  <li>{{'*', 2, last}, {0, 0, 0}} will start the job the last day of Feb (28th or 29th) of each year</li>
+  </ul>
+ 
+  <b>UNIONS</b> can be used to compose different time specifications. It can be seen as an UNION between all the possible results of each time specification, and is semantically equivalent to evaluating each specification,
+  then choosing the closest result. This is useful to describe schedules like : "Do it at 12 the odd days, and at 10 the even ones."
+  <ul>
+  <li>[{{'*','*',{1,15}},{12,0,0}}, {{'*','*',{16,last}},{13,0,0}}] will start a job 12am from the 1st to the 15th, and at 1pm from the 16th to the last day of the month</li>
+  </ul>
+  <p>
+  To lighten the time specification syntax, some shortcuts are provided
+  <ul>
+  <li> {{H,M,S}} is equivalent to {daily, {H,M,S}} </li>
+  <li> {'*', {...}} is equivalent to : {{'*','*','*'}, {...}} </li>
+  <li> {daily, {...}} is equivalent to : {{'*','*','*'}, {...}}</li>
+  <li> {weekly, WeekDay, {...}} is equivalent to : {{'*','*','*'}, WeekDay, {...}}</li>
+  <li> {monthly, {...}} is equivalent to : {{'*','*',1}, {...}} </li>
+  <li> {monthly, WeekDay, {...}} is equivalent to : {{'*','*',{1,7}}, WeekDay, {...}} ( read the first WeekDay of each month )</li>
+  <li> {{monthly,Day}, {...}} is equivalent to : {{'*','*',Day}, {...}} </li>
+  <li> {annually, {...}} is equivalent to : {{'*',1,1}, {...}} </li>
+  <li> {annually, WeekDay, {...}} is equivalent to : {{'*',1,{1,7}},WeekDay, {...}} ( read the first WeekDay of each year )</li>
+  <li></li>
+  </ul>
+  </p>
+  Note that the jobs are executed according to locale time. This means that non-existent times, such as the
+  "missing hours" during the daylight savings time conversion, will never match, causing jobs scheduled during
+  the "missing times" not to be run.  Similarly, times that occur more than once (again, during the daylight
+  savings time conversion) will cause matching jobs to be run twice.
+ 
+<h2><a name="types">Data Types</a></h2>
+
+<h3 class="typedecl"><a name="type-date_sched">date_sched()</a></h3>
+<p><tt>date_sched() = {<a href="#type-year_sched">year_sched()</a>, <a href="#type-month_sched">month_sched()</a>, <a href="#type-day_sched">day_sched()</a>} | daily | weekly | monthly | annualy | '*'</tt></p>
+
+
+<h3 class="typedecl"><a name="type-day_sched">day_sched()</a></h3>
+<p><tt>day_sched() = '*' | <a href="#type-day_sched_range">day_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-day_sched_range">day_sched_range()</a></h3>
+<p><tt>day_sched_range() = [<a href="#type-day_sched_range">day_sched_range()</a>] | {<a href="#type-day_sched_range_comp">day_sched_range_comp()</a>, <a href="#type-day_sched_range_comp">day_sched_range_comp()</a>} | {<a href="#type-day_sched_range_comp">day_sched_range_comp()</a>, <a href="#type-day_sched_range_comp">day_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-day_sched_range_comp">day_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-day_sched_range_comp">day_sched_range_comp()</a></h3>
+<p><tt>day_sched_range_comp() = last | <a href="calendar.html#type-day">calendar:day()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-hour_sched">hour_sched()</a></h3>
+<p><tt>hour_sched() = '*' | <a href="#type-hour_sched_range">hour_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-hour_sched_range">hour_sched_range()</a></h3>
+<p><tt>hour_sched_range() = [<a href="#type-hour_sched_range">hour_sched_range()</a>] | {<a href="#type-hour_sched_range_comp">hour_sched_range_comp()</a>, <a href="#type-hour_sched_range_comp">hour_sched_range_comp()</a>} | {<a href="#type-hour_sched_range_comp">hour_sched_range_comp()</a>, <a href="#type-hour_sched_range_comp">hour_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-hour_sched_range_comp">hour_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-hour_sched_range_comp">hour_sched_range_comp()</a></h3>
+<p><tt>hour_sched_range_comp() = last | <a href="calendar.html#type-hour">calendar:hour()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-minute_sched">minute_sched()</a></h3>
+<p><tt>minute_sched() = '*' | <a href="#type-minute_sched_range">minute_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-minute_sched_range">minute_sched_range()</a></h3>
+<p><tt>minute_sched_range() = [<a href="#type-minute_sched_range">minute_sched_range()</a>] | {<a href="#type-minute_sched_range_comp">minute_sched_range_comp()</a>, <a href="#type-minute_sched_range_comp">minute_sched_range_comp()</a>} | {<a href="#type-minute_sched_range_comp">minute_sched_range_comp()</a>, <a href="#type-minute_sched_range_comp">minute_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-minute_sched_range_comp">minute_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-minute_sched_range_comp">minute_sched_range_comp()</a></h3>
+<p><tt>minute_sched_range_comp() = last | <a href="calendar.html#type-minute">calendar:minute()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-month_sched">month_sched()</a></h3>
+<p><tt>month_sched() = '*' | <a href="#type-month_sched_range">month_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-month_sched_range">month_sched_range()</a></h3>
+<p><tt>month_sched_range() = [<a href="#type-month_sched_range">month_sched_range()</a>] | {<a href="#type-month_sched_range_comp">month_sched_range_comp()</a>, <a href="#type-month_sched_range_comp">month_sched_range_comp()</a>} | {<a href="#type-month_sched_range_comp">month_sched_range_comp()</a>, <a href="#type-month_sched_range_comp">month_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-month_sched_range_comp">month_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-month_sched_range_comp">month_sched_range_comp()</a></h3>
+<p><tt>month_sched_range_comp() = last | <a href="calendar.html#type-month">calendar:month()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-sched">sched()</a></h3>
+<p><tt>sched() = {<a href="#type-date_sched">date_sched()</a>, <a href="#type-time_sched">time_sched()</a>} | {<a href="#type-date_sched">date_sched()</a>, <a href="#type-wday_sched">wday_sched()</a>, {<a href="#type-hour_sched">hour_sched()</a>, <a href="#type-minute_sched">minute_sched()</a>, <a href="#type-second_sched">second_sched()</a>}}</tt></p>
+
+
+<h3 class="typedecl"><a name="type-second_sched">second_sched()</a></h3>
+<p><tt>second_sched() = '*' | <a href="#type-second_sched_range">second_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-second_sched_range">second_sched_range()</a></h3>
+<p><tt>second_sched_range() = [<a href="#type-second_sched_range">second_sched_range()</a>] | {<a href="#type-second_sched_range_comp">second_sched_range_comp()</a>, <a href="#type-second_sched_range_comp">second_sched_range_comp()</a>} | {<a href="#type-second_sched_range_comp">second_sched_range_comp()</a>, <a href="#type-second_sched_range_comp">second_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-second_sched_range_comp">second_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-second_sched_range_comp">second_sched_range_comp()</a></h3>
+<p><tt>second_sched_range_comp() = last | <a href="calendar.html#type-second">calendar:second()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-time_sched">time_sched()</a></h3>
+<p><tt>time_sched() = {<a href="#type-hour_sched">hour_sched()</a>, <a href="#type-minute_sched">minute_sched()</a>, <a href="#type-second_sched">second_sched()</a>} | hourly | minute</tt></p>
+
+
+<h3 class="typedecl"><a name="type-timespec">timespec()</a></h3>
+<p><tt>timespec() = <a href="#type-sched">sched()</a> | [<a href="#type-sched">sched()</a>]</tt></p>
+
+
+<h3 class="typedecl"><a name="type-wday_sched">wday_sched()</a></h3>
+<p><tt>wday_sched() = '*' | <a href="#type-wday_sched_range">wday_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-wday_sched_range">wday_sched_range()</a></h3>
+<p><tt>wday_sched_range() = [<a href="#type-wday_sched_range">wday_sched_range()</a>] | {<a href="#type-wday_sched_range_comp">wday_sched_range_comp()</a>, <a href="#type-wday_sched_range_comp">wday_sched_range_comp()</a>} | {<a href="#type-wday_sched_range_comp">wday_sched_range_comp()</a>, <a href="#type-wday_sched_range_comp">wday_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-wday_sched_range_comp">wday_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-wday_sched_range_comp">wday_sched_range_comp()</a></h3>
+<p><tt>wday_sched_range_comp() = last | sun | mon | tue | wed | thu | fri | sat | <a href="calendar.html#type-daynum">calendar:daynum()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-year_sched">year_sched()</a></h3>
+<p><tt>year_sched() = '*' | <a href="#type-year_sched_range">year_sched_range()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-year_sched_range">year_sched_range()</a></h3>
+<p><tt>year_sched_range() = [<a href="#type-year_sched_range">year_sched_range()</a>] | {<a href="#type-year_sched_range_comp">year_sched_range_comp()</a>, <a href="#type-year_sched_range_comp">year_sched_range_comp()</a>} | {<a href="#type-year_sched_range_comp">year_sched_range_comp()</a>, <a href="#type-year_sched_range_comp">year_sched_range_comp()</a>, non_neg_integer()} | <a href="#type-year_sched_range_comp">year_sched_range_comp()</a></tt></p>
+
+
+<h3 class="typedecl"><a name="type-year_sched_range_comp">year_sched_range_comp()</a></h3>
+<p><tt>year_sched_range_comp() = <a href="calendar.html#type-year">calendar:year()</a></tt></p>
+
+
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#is_valid_spec-1">is_valid_spec/1</a></td><td>Returns 'ok' if the given "TimeSpec" is correctly evaluated.</td></tr>
+<tr><td valign="top"><a href="#next-1">next/1</a></td><td>Equivalent to next(TimeSpec, calendar:now_to_local_time(now())).</td></tr>
+<tr><td valign="top"><a href="#next-2">next/2</a></td><td>  
+Returns the datetime immediately following the "BaseDate" and that  
+match the "TimeSpec" specification.</td></tr>
+<tr><td valign="top"><a href="#sample-2">sample/2</a></td><td>Same as sample(TimeSpec, calendar:now_to_local_time(now()), N).</td></tr>
+<tr><td valign="top"><a href="#sample-3">sample/3</a></td><td>Returns a list of at most "N" datetimes following the "BaseDate"
+  and that match the "TimeSpec" specification.</td></tr>
+<tr><td valign="top"><a href="#sooner_date-2">sooner_date/2</a></td><td></td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="is_valid_spec-1">is_valid_spec/1</a></h3>
+<div class="spec">
+<p><tt>is_valid_spec(TimeSpec::<a href="#type-timespec">timespec()</a>) -&gt; ok | {error, any()}</tt><br></p>
+</div><p>Returns 'ok' if the given "TimeSpec" is correctly evaluated.
+  Otherwise, returns 'error'.</p>
+
+<h3 class="function"><a name="next-1">next/1</a></h3>
+<div class="spec">
+<p><tt>next(TimeSpec::<a href="#type-timespec">timespec()</a>) -&gt; <a href="calendar.html#type-datetime">calendar:datetime()</a> | error_unforeseeable_future</tt><br></p>
+</div><p>Equivalent to next(TimeSpec, calendar:now_to_local_time(now())).</p>
+
+<h3 class="function"><a name="next-2">next/2</a></h3>
+<div class="spec">
+<p><tt>next(TimeSpec::<a href="#type-timespec">timespec()</a>, BaseDate::<a href="calendar.html#type-datetime">calendar:datetime()</a>) -&gt; <a href="calendar.html#type-datetime">calendar:datetime()</a> | error_unforeseeable_future</tt><br></p>
+</div><p><p>  
+Returns the datetime immediately following the "BaseDate" and that  
+match the "TimeSpec" specification.</p>
+ 
+  If no match can be found, returns the atom 'error_unforeseeable_future'.</p>
+
+<h3 class="function"><a name="sample-2">sample/2</a></h3>
+<div class="spec">
+<p><tt>sample(TimeSpec::<a href="#type-timespec">timespec()</a>, Num::pos_integer()) -&gt; [<a href="calendar.html#type-datetime">calendar:datetime()</a>] | error_unforeseeable_future</tt><br></p>
+</div><p>Same as sample(TimeSpec, calendar:now_to_local_time(now()), N).</p>
+
+<h3 class="function"><a name="sample-3">sample/3</a></h3>
+<div class="spec">
+<p><tt>sample(TimeSpec::<a href="#type-timespec">timespec()</a>, BaseDate::<a href="calendar.html#type-datetime">calendar:datetime()</a>, Num::pos_integer()) -&gt; [<a href="calendar.html#type-datetime">calendar:datetime()</a>] | error_unforeseeable_future</tt><br></p>
+</div><p>Returns a list of at most "N" datetimes following the "BaseDate"
+  and that match the "TimeSpec" specification. This can be used to check
+  if the time specification gives the expected behaviour.</p>
+
+<h3 class="function"><a name="sooner_date-2">sooner_date/2</a></h3>
+<div class="spec">
+<p><tt>sooner_date(A, B) -&gt; any()</tt></p>
+</div>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc, Feb 27 2013, 09:50:36.</i></p>
+</body>
+</html>

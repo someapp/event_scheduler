@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; QUARTZ 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/wsdk.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QUARTZ 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="Requirements" href="install_erlang.html" />
+    <link rel="prev" title="Erlang Time Management" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="install_erlang.html" title="Requirements"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="index.html" title="Erlang Time Management"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line"><span class="boldblue">Quartz</span> is a pure <a class="reference external" href="http://www.erlang.org/">Erlang</a> library for dealing with <strong>timers</strong> and <strong>scheduling</strong> that can be integrated to virtually any existing application.</div>
+<div class="line">It&#8217;s a <strong>scalable alternative to</strong> the standard erlang <a class="reference external" href="http://www.erlang.org/doc/man/timer.html">timer</a> module with a compatible enhanced interface like <strong>namespaces</strong> and <strong>schedules</strong>.</div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Scheduling</strong> is a powerful feature of <span class="boldblue">Quartz</span> that gives you the ability to specify <strong>when</strong> to start a given job in a manner similar to the</div>
+<div class="line">popular Unix <a class="reference external" href="http://en.wikipedia.org/wiki/Cron">CRON</a> and <a class="reference external" href="http://linux.about.com/library/cmd/blcmdl1_at.htm">AT</a> commands.</div>
+</div>
+<div class="line-block">
+<div class="line">If you&#8217;re familiar with <strong>crontab</strong> and the like, then you&#8217;re in a known territory. Otherwise, it&#8217;s pretty easy to get started.</div>
+</div>
+<div class="line-block">
+<div class="line"><span class="boldblue">Quartz</span> embraces the <a class="reference external" href="http://www.erlang.org/doc/design_principles/users_guide.html/">OTP design principles</a> and can be plugged easily in any supervision tree with no dependency but</div>
+<div class="line"><strong>Mnesia</strong> (shipped with Erlang).</div>
+</div>
+<div class="line-block">
+<div class="line">Finally, <span class="boldblue">Quartz</span> has been tested and is known to run on <strong>Windows</strong>, <strong>Linux</strong>, and <strong>Mac OS X</strong> ... 32/64-bit.</div>
+<div class="line">It will likely work fine on most <strong>UNIX</strong> systems too.</div>
+</div>
+<div class="line-block">
+<div class="line">Immediate benefits for your programs are:</div>
+</div>
+<ul class="simple">
+<li>Easy to use API</li>
+<li>Support timer <strong>namespaces</strong></li>
+<li>Shortcuts to save time schedules</li>
+<li>Timespecs <strong>UNION</strong> concept to avoid job duplication due to overlaps</li>
+<li>Handle large number of timers (&gt;10&#8216;000 per namespace)</li>
+<li>Provide all CRON&#8217;s features plus advanced scheduling capabilities</li>
+<li>Unlike CRON&#8217;s 1-minute resolution, <span class="boldblue">Quartz</span> provides 1-second resolution</li>
+<li><strong>Portable</strong> on any operating systems</li>
+</ul>
+<div class="sidebar">
+<p class="first sidebar-title">Purposes and origins</p>
+<div class="last line-block">
+<div class="line"><span class="boldblue">Quartz</span> was primarily used at Aleph Archives to</div>
+<div class="line">schedule Web archiving activities for our customers base.</div>
+<div class="line">It was so useful that its usage has extended to other</div>
+<div class="line">jobs-scheduling subsystems.</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<p><img alt="erlang logo" src="_images/aleph_logo.png" style="width: 96px; height: 96px;" /></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_erlang.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">QUARTZ Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">QUARTZ Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Bugs Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3rdlic.html">Third Party Libraries</a></li>
+</ul>
+<h3>API Reference</h3>
+<ul class="current">
+<b>Modules</b>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Overview</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz.html">quartz</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz_sched.html">quartz_sched</a></li>
+<br/>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="install_erlang.html" title="Requirements"
+             >next</a></li>
+        <li class="right" >
+          <a href="index.html" title="Erlang Time Management"
+             >previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Aleph Archives.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+
+<!-- Adding Google Analytics to Sphinx Docs: -->
+<!-- http://ericholscher.com/blog/2009/apr/5/adding-google-analytics-sphinx-docs/ -->
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-18218047-3']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+
+  </body>
+</html>

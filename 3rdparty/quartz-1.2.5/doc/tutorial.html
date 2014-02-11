@@ -1,0 +1,950 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>QUARTZ Tutorial &mdash; QUARTZ 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/wsdk.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="QUARTZ 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="Support Services" href="support.html" />
+    <link rel="prev" title="QUARTZ Quick Start" href="quick_start.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="support.html" title="Support Services"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="quick_start.html" title="QUARTZ Quick Start"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quartz-tutorial">
+<h1>QUARTZ Tutorial<a class="headerlink" href="#quartz-tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="line-block">
+<div class="line"><strong>QUARTZ</strong> lets you <em>schedule jobs</em> at any time with ease.</div>
+</div>
+<div class="section" id="simple-repetitive-task">
+<span id="count-warcs"></span><h2>1. Simple Repetitive Task<a class="headerlink" href="#simple-repetitive-task" title="Permalink to this headline">¶</a></h2>
+<p>In this first example, we&#8217;ll use <strong>Quartz</strong> to repeat a <span class="boldblue">simple task</span>.</p>
+<div class="highlight-erlang"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">%% copy the following into a file called: &quot;repeat1.erl&quot;</span>
+<span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">repeat1</span><span class="p">).</span>
+
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span>
+         <span class="n">start</span><span class="o">/</span><span class="mi">0</span>
+        <span class="p">]).</span>
+
+<span class="nf">start</span><span class="p">()</span> <span class="o">-&gt;</span>
+   <span class="c">%% start the default quartz server</span>
+   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">start_link</span><span class="p">(),</span>
+
+   <span class="c">%% print &quot;Hello Quartz (3sec.)&quot; each 3sec.</span>
+<span class="hll">   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span><span class="nn">quartz</span><span class="p">:</span><span class="n">apply_interval</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;Hello Quartz (3sec.)</span><span class="si">~n</span><span class="s">&quot;</span><span class="p">]),</span>
+</span>
+   <span class="c">%% do the same, but each 10sec. (now with a &quot;fun&quot;)</span>
+<span class="hll">   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">apply_interval</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="k">fun</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nn">io</span><span class="p">:</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Hello Quartz (10sec.)</span><span class="si">~n</span><span class="s">&quot;</span><span class="p">)</span> <span class="k">end</span><span class="p">).</span>
+</span></pre></div>
+</td></tr></table></div>
+<div class="line-block">
+<div class="line">Compile:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; erlc repeat1.erl</pre>
+</div>
+<div class="line-block">
+<div class="line">Then run:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; werl
+Erlang R15B01 (erts-5.9.1) [source] [64-bit] [smp:2:2] [async-threads:0] [kernel-poll:false]
+Eshell V5.9.1  (abort with ^G)
+
+1&gt; repeat1:start().
+
+%% wait few seconds to see some outputs like these:
+Hello Quartz (3sec.)
+Hello Quartz (3sec.)
+Hello Quartz (3sec.)
+Hello Quartz (10sec.)
+
+2&gt; q().</pre>
+</div>
+<div class="section" id="recap">
+<h3>Recap<a class="headerlink" href="#recap" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><div class="first line-block">
+<div class="line">Lines <span class="red">2-6</span>: declare a new module called repeat1 which exports a public function called <strong>start/0</strong>.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">10</span>: start a new Quartz&#8217;s server.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">13</span>: start a new timer that executes the <strong>{M,F,A}</strong> each 3 seconds ({M,F,A} equals {io, format, [&#8220;Hello Quartz (3sec.)~n&#8221;]}).</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">16</span>: start a new timer that executes a <strong>fun</strong> each 10 seconds.</div>
+</div>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<h2>2. Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p>Below, we&#8217;ll describe some primitives to get started with <span class="boldblue">Quartz</span>.</p>
+<div class="highlight-erlang"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">%% copy the following into a file called: &quot;repeat2.erl&quot;</span>
+<span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">repeat2</span><span class="p">).</span>
+
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span>
+         <span class="n">start</span><span class="o">/</span><span class="mi">0</span>
+        <span class="p">]).</span>
+
+<span class="nf">start</span><span class="p">()</span> <span class="o">-&gt;</span>
+   <span class="c">%% ------------------------------</span>
+   <span class="c">%% start the default quartz server</span>
+<span class="hll">   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">QPid</span><span class="p">}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">start_link</span><span class="p">(),</span>
+</span>
+   <span class="c">%% print &quot;Hello Word&quot; once after 10sec.</span>
+   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">apply_after</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="k">fun</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nn">io</span><span class="p">:</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Hello World</span><span class="si">~n</span><span class="s">&quot;</span><span class="p">)</span> <span class="k">end</span><span class="p">),</span>
+
+   <span class="c">%% repeatedly print &quot;Hello WebArchiving&quot; each 3sec.</span>
+   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">TRef1</span><span class="p">}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">apply_interval</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;Hello WebArchiving</span><span class="si">~n</span><span class="s">&quot;</span><span class="p">]),</span>
+
+   <span class="c">%% ------------------------------</span>
+   <span class="c">%% start a new quartz server using namespace &#39;ns&#39;</span>
+   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="nv">NSPid</span><span class="p">}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">start_link</span><span class="p">(</span><span class="n">ns</span><span class="p">),</span>
+
+   <span class="c">%% repeatedly print &quot;Hello Erlang&quot; each 5sec. using quartz server &#39;ns&#39;</span>
+   <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">apply_interval</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;Hello WebArchiving</span><span class="si">~n</span><span class="s">&quot;</span><span class="p">]),</span>
+
+   <span class="c">%% [...] DO SOME WORK HERE</span>
+
+   <span class="c">%% cancel the timer referenced by TRef1</span>
+   <span class="n">ok</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">cancel</span><span class="p">(</span><span class="nv">TRef1</span><span class="p">),</span>
+
+   <span class="c">%% cancel all timers in namespace &#39;ns&#39;</span>
+   <span class="n">ok</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">cancel_all</span><span class="p">(</span><span class="n">ns</span><span class="p">),</span>
+
+   <span class="c">%% stop the default quartz server</span>
+   <span class="n">ok</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">stop</span><span class="p">(</span><span class="nv">QPid</span><span class="p">),</span> <span class="c">%% equivalent to quartz:stop/0</span>
+
+   <span class="c">%% stop the quartz server under namespace &#39;ns&#39;</span>
+   <span class="n">ok</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">stop</span><span class="p">(</span><span class="n">&#39;ns&#39;</span><span class="p">).</span> <span class="c">%% you can also use quartz:stop(NSPid)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="id1">
+<h3>Recap<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Line <span class="red">11</span>: start a new Quartz&#8217;s server and we keep its <strong>Pid</strong> for a further usage.</p>
+</li>
+<li><p class="first">Line <span class="red">14</span>: schedule a task (here a message display) after 10 seconds.</p>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">17</span>: schedule a task execution every 3 seconds, and we keep the timer reference for a further usage.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">21</span>: start another Quartz&#8217;s server with a name space &#8216;ns&#8217;.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">24</span>: repeat a message display every 5 seconds on the named Quartz&#8217;s server.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">29</span>: cancel the first Quartz&#8217;s timer using its reference.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">32</span>: cancel all the timers started in the &#8216;ns&#8217; Quartz&#8217;s server.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">35</span>: stop the first Quartz&#8217;s server using its Pid.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">38</span>: stop the named Quartz&#8217;s server using its name space (&#8216;ns&#8217;).</div>
+</div>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="unix-at-clone">
+<h2>3. Unix &#8220;AT&#8221; Clone<a class="headerlink" href="#unix-at-clone" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">The code below shows how easy one can mimic the Unix command <a class="reference external" href="http://linux.about.com/library/cmd/blcmdl1_at.htm">AT</a>.</div>
+</div>
+<div class="line-block">
+<div class="line">Open a new Erlang shell and try these:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; werl
+Erlang R15B01 (erts-5.9.1) [source] [64-bit] [smp:2:2] [async-threads:0] [kernel-poll:false]
+Eshell V5.9.1  (abort with ^G)
+
+%% execute the fun() today at 12:49 (notice the double {{ }})
+1&gt; quartz:apply_at({{12,49,0}}, fun() -&gt; io:format("Hello Quartz~n") end).
+
+%% execute the fun() on July 3rd, 2048 at 8:32:45
+2&gt; quartz:apply_at({{2048,7,3}, {8,32,45}}, fun() -&gt; io:format("Hello Quartz~n") end).
+
+3&gt; q().</pre>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="advanced-jobs-scheduling">
+<h2>4. Advanced Jobs-Scheduling<a class="headerlink" href="#advanced-jobs-scheduling" title="Permalink to this headline">¶</a></h2>
+<p>The third example shows you how to use <strong>Quartz</strong> to <span class="boldblue">schedule complex timing tasks</span>.</p>
+<div class="sidebar">
+<p class="first sidebar-title">Difference with CRON</p>
+<div class="last line-block">
+<div class="line">Unlike CRON, you can schedule <strong>a job</strong> with a <span class="boldblue">UNION</span> of time</div>
+<div class="line">specifications rather than duplicating the same job with multiple specifications.</div>
+<div class="line">This has the good side effect of not launching the job more than</div>
+<div class="line">once if your time specifications <strong>overlap</strong>.</div>
+</div>
+</div>
+<div class="highlight-erlang"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">%% copy the following into a file called: &quot;repeat3.erl&quot;</span>
+<span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">repeat3</span><span class="p">).</span>
+
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span>
+         <span class="n">start</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">start</span><span class="o">/</span><span class="mi">3</span>
+        <span class="p">]).</span>
+
+<span class="nf">start</span><span class="p">()</span> <span class="o">-&gt;</span>
+<span class="hll">    <span class="n">start</span><span class="p">(</span><span class="n">&#39;my_super_crawler&#39;</span><span class="p">,</span> <span class="n">&#39;archive&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;https://www.facebook.com/&quot;</span><span class="p">]).</span>
+</span>
+<span class="nf">start</span><span class="p">(</span><span class="nv">M</span><span class="p">,</span><span class="nv">F</span><span class="p">,</span><span class="nv">A</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="c">%% start the default quartz server</span>
+    <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">start_link</span><span class="p">(),</span>
+
+    <span class="nv">TimeSpecs</span> <span class="o">=</span> <span class="p">[</span>
+       <span class="c">%% at midnight of each last day of the month</span>
+       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">last</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+
+       <span class="c">%% at midnight of each 31st day of the</span>
+       <span class="c">%% month (will skip Feb, Apr, etc.)</span>
+       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="mi">31</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+
+       <span class="c">%% weekly, each Saturday at noon</span>
+       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">&#39;*&#39;</span><span class="p">},</span> <span class="n">sat</span><span class="p">,</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+
+       <span class="c">%% every 1st, 7th and 28th at midnight</span>
+       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span> <span class="n">&#39;*&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">28</span><span class="p">]},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}}</span>
+
+       <span class="c">%% the first Saturday of each month at noon</span>
+       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">&#39;*&#39;</span><span class="p">,{</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">}},</span> <span class="n">sat</span><span class="p">,</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+
+       <span class="c">%% each Sunday every 8 hours</span>
+<span class="hll">       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span> <span class="n">&#39;*&#39;</span><span class="p">,</span> <span class="n">&#39;*&#39;</span><span class="p">},</span> <span class="n">sun</span><span class="p">,</span> <span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span> <span class="mi">8</span><span class="p">},</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}}</span>
+</span>
+       <span class="c">%% bi-monthly, Saturday every two weeks at 3pm</span>
+       <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span><span class="n">&#39;*&#39;</span><span class="p">,[{</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">},{</span><span class="mi">15</span><span class="p">,</span><span class="mi">21</span><span class="p">}]},</span> <span class="n">sat</span><span class="p">,</span> <span class="p">{</span><span class="mi">15</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+
+       <span class="c">%% handy shortcuts for TimeSpecs (see doc.)</span>
+       <span class="p">{{</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}},</span>
+       <span class="p">{</span><span class="n">sat</span><span class="p">,</span>     <span class="p">{</span><span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}},</span>
+       <span class="p">{</span><span class="n">monthly</span><span class="p">,</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">}},</span>
+
+<span class="hll">       <span class="c">%% dealing with &quot;Daylight Saving Time&quot; can be tricky.</span>
+</span>       <span class="c">%% Assuming you&#39;re in UK, and want to run a job at</span>
+       <span class="c">%% 12:00 UTC every day, the following UNION is useful:</span>
+       <span class="p">[</span>
+        <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span>  <span class="p">{</span><span class="mi">11</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>        <span class="n">&#39;*&#39;</span><span class="p">},</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+        <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span>       <span class="mi">3</span><span class="p">,</span>      <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">}},</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+        <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span>       <span class="mi">3</span><span class="p">,</span>  <span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="n">last</span><span class="p">}},</span> <span class="p">{</span><span class="mi">13</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+        <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span>   <span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">},</span>        <span class="n">&#39;*&#39;</span><span class="p">},</span> <span class="p">{</span><span class="mi">13</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+        <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span>      <span class="mi">10</span><span class="p">,</span>     <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">26</span><span class="p">}},</span> <span class="p">{</span><span class="mi">13</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+        <span class="p">{{</span><span class="n">&#39;*&#39;</span><span class="p">,</span>      <span class="mi">10</span><span class="p">,</span>  <span class="p">{</span><span class="mi">27</span><span class="p">,</span><span class="n">last</span><span class="p">}},</span> <span class="p">{</span><span class="mi">12</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">}}</span>
+       <span class="p">]</span>
+    <span class="p">],</span>
+
+
+   <span class="c">%% schedule the M,F,A using the &quot;TimeSpecs&quot; list</span>
+   <span class="nn">lists</span><span class="p">:</span><span class="n">foreach</span><span class="p">(</span><span class="k">fun</span><span class="p">(</span><span class="nv">Spec</span><span class="p">)</span> <span class="o">-&gt;</span>
+      <span class="p">{</span><span class="n">ok</span><span class="p">,_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">schedule</span><span class="p">(</span><span class="nv">Spec</span><span class="p">,</span> <span class="nv">M</span><span class="p">,</span> <span class="nv">F</span><span class="p">,</span> <span class="nv">A</span><span class="p">).</span>
+   <span class="k">end</span><span class="p">,</span> <span class="nv">TimeSpecs</span><span class="p">).</span>
+</pre></div>
+</td></tr></table></div>
+<div class="line-block">
+<div class="line">This is self-explanatory.</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="sampling-time">
+<h2>5. Sampling Time<a class="headerlink" href="#sampling-time" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">When dealing with <span class="boldblue">Quartz</span>&#8216;s TimeSpecs, you may find yourself in a situation where you want</div>
+<div class="line">schedule a task in a <strong>far future</strong> or <strong>short periods</strong> (very close to each other).</div>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Linked &#8220;Quartz&#8221;</p>
+<div class="line-block">
+<div class="line">Suppose you want to schedule some tasks by a process P, and if</div>
+<div class="line">it dies, unschedule all its tasks.</div>
+</div>
+<div class="last line-block">
+<div class="line">Easy! Create a timer in linked mode: <span class="boldblue">quart:start_link(Name,&#8217;true&#8217;)</span>. By specifying <strong>&#8216;true&#8217;</strong> as a second argument to <strong>start_link/2</strong>, Quartz will automatically link to the calling process. If the latter dies, all its corresponding tasks will be unscheduled and no more executed.</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">The call to <a class="reference external" href="http://webarchivingbucket.com/quartz/doc/api/quartz_sched.html#sample-2">quartz_sched:sample/2</a> will help you understand when <span class="boldblue">Quartz</span> will schedule your task.</div>
+</div>
+<div class="line-block">
+<div class="line">Open a new Erlang shell and try these:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; werl
+Erlang R15B01 (erts-5.9.1) [source] [64-bit] [smp:2:2] [async-threads:0] [kernel-poll:false]
+Eshell V5.9.1  (abort with ^G)
+
+%% generate 1 sample
+1&gt; quartz_sched:sample({{'*','*',last}, {0,0,0}}, 1).
+[{{2013,2,28},{0,0,0}}]
+
+%% generate 10 samples
+2&gt;  quartz_sched:sample({{'*','*',{1,5}}, {0,0,0}}, 10).
+[{{2013,3,1},{0,0,0}},
+ {{2013,3,2},{0,0,0}},
+ {{2013,3,3},{0,0,0}},
+ {{2013,3,4},{0,0,0}},
+ {{2013,3,5},{0,0,0}},
+ {{2013,4,1},{0,0,0}},
+ {{2013,4,2},{0,0,0}},
+ {{2013,4,3},{0,0,0}},
+ {{2013,4,4},{0,0,0}},
+ {{2013,4,5},{0,0,0}}]
+
+%% generate 3 samples
+3&gt; quartz_sched:sample({{'*','*',31}, {0,0,0}}, 3).
+[{{2013,3,31},{0,0,0}},
+ {{2013,5,31},{0,0,0}},
+ {{2013,7,31},{0,0,0}}]
+
+%% generate 3 samples
+4&gt; quartz_sched:sample({{'*','*',28}, {0,0,0}}, 3).
+[{{2013,2,28},{0,0,0}},
+{{2013,3,28},{0,0,0}},
+{{2013,4,28},{0,0,0}}]
+
+%% generate 10 samples
+5&gt; quartz_sched:sample({{'*',2,29}, '*', {0,0,0}}, 10).
+[{{2016,2,29},{0,0,0}},
+ {{2020,2,29},{0,0,0}},
+ {{2024,2,29},{0,0,0}},
+ {{2028,2,29},{0,0,0}},
+ {{2032,2,29},{0,0,0}},
+ {{2036,2,29},{0,0,0}},
+ {{2040,2,29},{0,0,0}},
+ {{2044,2,29},{0,0,0}},
+ {{2048,2,29},{0,0,0}},
+ {{2052,2,29},{0,0,0}}]
+
+%% generate 10 samples
+6&gt; quartz_sched:sample({{'*',2,last}, '*', {0,0,0}}, 10).
+[{{2013,2,28},{0,0,0}},
+ {{2014,2,28},{0,0,0}},
+ {{2015,2,28},{0,0,0}},
+ {{2016,2,29},{0,0,0}},
+ {{2017,2,28},{0,0,0}},
+ {{2018,2,28},{0,0,0}},
+ {{2019,2,28},{0,0,0}},
+ {{2020,2,29},{0,0,0}},
+ {{2021,2,28},{0,0,0}},
+ {{2022,2,28},{0,0,0}}]
+
+%% generate 15 samples
+7&gt; quartz_sched:sample({{'*','*','*'}, {0,{0,59,5},0}}, 15).
+[{{2013,2,18},{0,0,0}},
+ {{2013,2,18},{0,5,0}},
+ {{2013,2,18},{0,10,0}},
+ {{2013,2,18},{0,15,0}},
+ {{2013,2,18},{0,20,0}},
+ {{2013,2,18},{0,25,0}},
+ {{2013,2,18},{0,30,0}},
+ {{2013,2,18},{0,35,0}},
+ {{2013,2,18},{0,40,0}},
+ {{2013,2,18},{0,45,0}},
+ {{2013,2,18},{0,50,0}},
+ {{2013,2,18},{0,55,0}},
+ {{2013,2,19},{0,0,0}},
+ {{2013,2,19},{0,5,0}},
+ {{2013,2,19},{0,10,0}}]
+
+%% generate 10 samples
+8&gt; quartz_sched:sample({{'*','*','*'}, {{0,23,3},0,0}}, 10).
+[{{2013,2,17},{15,0,0}},
+ {{2013,2,17},{18,0,0}},
+ {{2013,2,17},{21,0,0}},
+ {{2013,2,18},{0,0,0}},
+ {{2013,2,18},{3,0,0}},
+ {{2013,2,18},{6,0,0}},
+ {{2013,2,18},{9,0,0}},
+ {{2013,2,18},{12,0,0}},
+ {{2013,2,18},{15,0,0}},
+ {{2013,2,18},{18,0,0}}]
+
+%% generate 5 samples
+9&gt; quartz_sched:sample({{'*','*','*'}, wed, {0,0,0}}, 5).
+[{{2013,2,20},{0,0,0}},
+ {{2013,2,27},{0,0,0}},
+ {{2013,3,6},{0,0,0}},
+ {{2013,3,13},{0,0,0}},
+ {{2013,3,20},{0,0,0}}]
+
+%% generate 5 samples
+10&gt; quartz_sched:sample({{'*','*','*'}, [sat,wed], {0,0,0}}, 5).
+[{{2013,2,20},{0,0,0}},
+ {{2013,2,23},{0,0,0}},
+ {{2013,2,27},{0,0,0}},
+ {{2013,3,2},{0,0,0}},
+ {{2013,3,6},{0,0,0}}]
+
+%% generate 10 samples
+11&gt; quartz_sched:sample({{'*','*',[{1,7},{15,21}]}, sun, {15,0,0}}, 10).
+[{{2013,2,17},{15,0,0}},
+ {{2013,3,3},{15,0,0}},
+ {{2013,3,17},{15,0,0}},
+ {{2013,4,7},{15,0,0}},
+ {{2013,4,21},{15,0,0}},
+ {{2013,5,5},{15,0,0}},
+ {{2013,5,19},{15,0,0}},
+ {{2013,6,2},{15,0,0}},
+ {{2013,6,16},{15,0,0}},
+ {{2013,7,7},{15,0,0}}]
+
+%% generate 10 samples
+12&gt; quartz_sched:sample({{'*','*','*'}, {fri,sun}, {15,0,0}}, 10).
+[{{2013,2,17},{15,0,0}},
+ {{2013,2,22},{15,0,0}},
+ {{2013,2,23},{15,0,0}},
+ {{2013,2,24},{15,0,0}},
+ {{2013,3,1},{15,0,0}},
+ {{2013,3,2},{15,0,0}},
+ {{2013,3,3},{15,0,0}},
+ {{2013,3,8},{15,0,0}},
+ {{2013,3,9},{15,0,0}},
+ {{2013,3,10},{15,0,0}}]
+
+%% generate 3 samples
+13&gt; quartz_sched:sample({{[2013,2014],12,31},{0,0,0}}, 3).
+[{{2013,12,31},{0,0,0}},
+ {{2014,12,31},{0,0,0}},
+  error_unforeseeable_future]
+
+%% generate 10 samples (AVOID TO TRAVEL THESE DAYS)
+14&gt; quartz_sched:sample({{'*','*',13}, fri, {0,0,0}},10).
+[{{2013,9,13},{0,0,0}},
+ {{2013,12,13},{0,0,0}},
+ {{2014,6,13},{0,0,0}},
+ {{2015,2,13},{0,0,0}},
+ {{2015,3,13},{0,0,0}},
+ {{2015,11,13},{0,0,0}},
+ {{2016,5,13},{0,0,0}},
+ {{2017,1,13},{0,0,0}},
+ {{2017,10,13},{0,0,0}},
+ {{2018,4,13},{0,0,0}}]
+
+15&gt; q().</pre>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="live-video-stream-archiving-reloaded">
+<h2>6. Live Video Stream Archiving (RELOADED)<a class="headerlink" href="#live-video-stream-archiving-reloaded" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">In this tutorial, we&#8217;ll enhance the <a class="reference external" href="/valeo/doc/tutorial.html#live-video-stream-archiving">Valeo</a> example by adding support for scheduling using <span class="boldblue">Quartz</span>.</div>
+<div class="line">The original tutorial was about driving the <strong>VLC media player</strong> to capture a <span class="boldblue">TV RTSP</span> stream and archive it on disk.</div>
+<div class="line">Here, the <strong>live stream archiving</strong> task is scheduled and launched at precise dates allowing us to <strong>capture exactly</strong> the</div>
+<div class="line"><span class="boldblue">TV show we&#8217;re interested in</span> (the <strong>Hard Talk</strong> on BBC).</div>
+</div>
+<div class="line-block">
+<div class="line">The following illustrates how scheduling can be easily achieved and quickly integrated to an existing application.</div>
+</div>
+<div class="highlight-erlang"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">%% overwrite the start/0 in the &quot;vlc.erl&quot; example (see VALEO) with the ones below.</span>
+
+<span class="p">[..]</span>
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">start</span><span class="o">/</span><span class="mi">4</span><span class="p">]).</span>
+
+<span class="c">%%--------------------------------------------------------------------</span>
+<span class="c">%% @doc Drive VLC player command.</span>
+<span class="c">%% @end</span>
+<span class="c">%%--------------------------------------------------------------------</span>
+<span class="nf">start</span><span class="p">()</span> <span class="o">-&gt;</span>
+  <span class="c">%% we&#39;re interested in a BBC World News Show called &quot;Hard Talk&quot; that</span>
+  <span class="c">%% airs each Tuesday, Wednesday and Thursday at 4:30 AM.</span>
+  <span class="nv">Stream</span> <span class="o">=</span> <span class="s">&quot;rtsp://media6.lsops.net:1935/live/bbcworld1_en_high.sdp&quot;</span><span class="p">,</span>
+  <span class="nv">Output</span> <span class="o">=</span> <span class="s">&quot;bbcwn-hard-talk-</span><span class="si">~p</span><span class="s">-</span><span class="si">~p</span><span class="s">-</span><span class="si">~p</span><span class="s">.mp4&quot;</span><span class="p">,</span> <span class="c">%% output file format string</span>
+  <span class="nv">Duration</span> <span class="o">=</span> <span class="mi">31</span><span class="o">*</span><span class="mi">60</span><span class="p">,</span> <span class="c">%% this is a 30mn program (+1mn for safety).</span>
+  <span class="nv">Muxer</span> <span class="o">=</span> <span class="s">&quot;ts&quot;</span><span class="p">,</span>
+
+<span class="hll">  <span class="nv">Schedule</span> <span class="o">=</span> <span class="p">{{</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">},</span> <span class="p">[</span><span class="n">wed</span><span class="p">,</span> <span class="n">thu</span><span class="p">,</span> <span class="n">tue</span><span class="p">],</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">}}</span> <span class="c">% each Tuesday, Wednesday, Thursday at 4:30 AM</span>
+</span>
+  <span class="c">%% start the default quartz server</span>
+  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">start_link</span><span class="p">(),</span>
+
+  <span class="c">%% this is where the magic happens</span>
+<span class="hll">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">schedule</span><span class="p">(</span><span class="nv">Schedule</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="p">[</span><span class="nv">Stream</span><span class="p">,</span> <span class="nv">Output</span><span class="p">,</span> <span class="nv">Duration</span><span class="p">,</span> <span class="nv">Muxer</span><span class="p">]).</span>
+</span>
+<span class="nf">start</span><span class="p">(</span><span class="nv">Stream</span><span class="p">,</span> <span class="nv">Output</span><span class="p">,</span> <span class="nv">Duration</span><span class="p">,</span> <span class="nv">Muxer</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="p">{{</span><span class="nv">Y</span><span class="p">,</span><span class="nv">M</span><span class="p">,</span><span class="nv">D</span><span class="p">},_}</span> <span class="o">=</span> <span class="nn">calendar</span><span class="p">:</span><span class="n">now_to_locale_time</span><span class="p">(</span><span class="n">now</span><span class="p">()),</span>
+  <span class="nv">OutputFileName</span> <span class="o">=</span> <span class="nn">lists</span><span class="p">:</span><span class="n">flatten</span><span class="p">(</span><span class="nn">io_lib</span><span class="p">:</span><span class="n">format</span><span class="p">(</span><span class="nv">Output</span><span class="p">,</span> <span class="p">[</span><span class="nv">Y</span><span class="p">,</span><span class="nv">M</span><span class="p">,</span><span class="nv">D</span><span class="p">])),</span>
+  <span class="nv">ProgArgs</span> <span class="o">=</span> <span class="p">[</span>
+              <span class="p">{</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">find_vlc</span><span class="p">()},</span>
+              <span class="p">{</span><span class="n">cmd_params</span><span class="p">,</span>
+               <span class="p">[</span><span class="s">&quot;-I dummy&quot;</span><span class="p">,</span> <span class="c">%% run without GUI (console mode)</span>
+                <span class="s">&quot;-q&quot;</span><span class="p">,</span> <span class="c">%% quiet mode</span>
+                <span class="o">?</span><span class="nv">VLC_PARAMS</span><span class="p">(</span><span class="nb">integer_to_list</span><span class="p">(</span><span class="nv">Duration</span><span class="p">),</span> <span class="nv">Stream</span><span class="p">,</span> <span class="nv">OutputFileName</span><span class="p">,</span> <span class="nv">Muxer</span><span class="p">)</span>
+              <span class="p">]}</span>
+             <span class="p">],</span>
+  <span class="p">[..]</span>
+  <span class="c">%% The rest of the code is pretty much the same as in the original tutorial.</span>
+  <span class="c">%% This shows how easy to add &quot;scheduling&quot; to an existing code.</span>
+</pre></div>
+</td></tr></table></div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Combine Quartz and Valeo</p>
+<div class="last line-block">
+<div class="line">Both modules can be combined to build robust, long-running applications.</div>
+<div class="line">At Aleph Archives, this combination is used to archive &#8220;in repetitive manner&#8221; our customer websites for years.</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Recap<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">24</span>: <span class="boldblue">Quartz</span> will repeatedly call the <strong>vlc:start/4</strong> function to grab the stream at the specified time slots (defined by time specification above: Tuesday, Wednesday, Thursday at 4:30 AM).</div>
+</div>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="archiving-twitter">
+<h2>7. Archiving Twitter<a class="headerlink" href="#archiving-twitter" title="Permalink to this headline">¶</a></h2>
+<p>In this last tutorial, we&#8217;ll use <strong>Quartz</strong> to follow a list of <span class="boldblue">Twitter</span> accounts.</p>
+<div class="highlight-erlang"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">%% copy the following into a file called: &quot;twitter_simple.erl&quot;</span>
+<span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">twitter_simple</span><span class="p">).</span>
+
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">start</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">start</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span> <span class="n">fetch</span><span class="o">/</span><span class="mi">2</span><span class="p">]).</span>
+
+<span class="c">%% the Twitter API request for an account and a number of results</span>
+<span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">URL</span><span class="p">(</span><span class="nv">Account</span><span class="p">,</span><span class="nv">Count</span><span class="p">),</span>
+ <span class="s">&quot;https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&amp;include_rts=true&amp;screen_name=&quot;</span> <span class="o">++</span>
+ <span class="nv">Account</span> <span class="o">++</span> <span class="s">&quot;&amp;count=&quot;</span> <span class="o">++</span> <span class="nb">integer_to_list</span><span class="p">(</span><span class="nv">Count</span><span class="p">)).</span>
+
+<span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">REFRESH</span><span class="p">,</span> <span class="mi">60000</span><span class="p">).</span>  <span class="c">%% default refresh time (60000ms = 1min.)</span>
+<span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">COUNT</span><span class="p">,</span> <span class="mi">10</span><span class="p">).</span>  <span class="c">%% default number of (last) tweets to fetch</span>
+
+<span class="c">%% ------------------------------------------------------------</span>
+<span class="c">%% this module allows to follow a list of Twitter accounts with</span>
+<span class="c">%% a limited number of results per account</span>
+<span class="c">%% ------------------------------------------------------------</span>
+<span class="nf">start</span><span class="p">()</span> <span class="o">-&gt;</span>
+  <span class="c">%% follow the default Twitter account with a default number of tweets to grab</span>
+  <span class="n">start</span><span class="p">([{</span><span class="s">&quot;netpreserve&quot;</span><span class="p">,</span> <span class="o">?</span><span class="nv">COUNT</span><span class="p">}]).</span>
+
+<span class="nf">start</span><span class="p">([{</span><span class="nv">Account</span><span class="p">,</span> <span class="nv">Count</span><span class="p">}</span> <span class="p">|</span> <span class="nv">L</span><span class="p">])</span> <span class="o">-&gt;</span>
+  <span class="c">%% start fetching the Twitter account every minute</span>
+<span class="hll">  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">_}</span> <span class="o">=</span> <span class="nn">quartz</span><span class="p">:</span><span class="n">apply_interval</span><span class="p">(</span><span class="o">?</span><span class="nv">REFRESH</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">fetch</span><span class="p">,</span> <span class="p">[</span><span class="nv">Account</span><span class="p">,</span> <span class="nv">Count</span><span class="p">]),</span>
+</span>
+  <span class="c">%% continue with the remaining accounts, recurse!</span>
+  <span class="n">start</span><span class="p">(</span><span class="nv">L</span><span class="p">);</span>
+
+<span class="nf">start</span><span class="p">([])</span> <span class="o">-&gt;</span>
+  <span class="n">ok</span><span class="p">.</span>
+
+<span class="nf">fetch</span><span class="p">(</span><span class="nv">Account</span><span class="p">,</span> <span class="nv">Count</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="c">%% Execute the fetching request on Twitter.</span>
+  <span class="c">%% For the sake of simplicity, there&#39;s no error handling.</span>
+  <span class="p">{</span><span class="n">ok</span><span class="p">,</span> <span class="p">{{</span><span class="s">&quot;HTTP/1.1&quot;</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span><span class="s">&quot;OK&quot;</span><span class="p">},</span> <span class="nv">Hdrs</span><span class="p">,</span> <span class="nv">Tweets</span><span class="p">}}</span> <span class="o">=</span>
+       <span class="nn">httpc</span><span class="p">:</span><span class="n">request</span><span class="p">(</span><span class="nb">get</span><span class="p">,</span> <span class="p">{</span><span class="o">?</span><span class="nv">URL</span><span class="p">(</span><span class="nv">Account</span><span class="p">,</span> <span class="nv">Count</span><span class="p">),</span> <span class="p">[]},</span> <span class="p">[],</span> <span class="p">[]),</span>
+
+  <span class="nn">io</span><span class="p">:</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Account:</span><span class="si">~s</span><span class="s"> =&gt; </span><span class="si">~s~n~n</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nv">Account</span><span class="p">,</span> <span class="nv">Tweets</span><span class="p">]).</span> <span class="c">%% print out the Tweets</span>
+</pre></div>
+</td></tr></table></div>
+<div class="line-block">
+<div class="line">Compile:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; erlc twitter_simple.erl</pre>
+</div>
+<p>The example uses the <span class="boldblue">httpc</span> module to send requests to <strong>Twitter</strong>. This requires to start some Erlang services before: <strong>ssl</strong> and <strong>inets</strong>.</p>
+<div class="line-block">
+<div class="line">Run:</div>
+</div>
+<div class="highlight-python"><pre>c:\&gt; werl -s ssl -s inets
+Erlang R15B01 (erts-5.9.1) [source] [64-bit] [smp:2:2] [async-threads:0] [kernel-poll:false]
+Eshell V5.9.1  (abort with ^G)
+
+1&gt; {ok, _} = quartz:start_link().
+
+2&gt; twitter_simple:start().
+
+%% wait few seconds and watch the retrieved Tweets
+
+3&gt; q().</pre>
+</div>
+<div class="section" id="id3">
+<h3>Recap<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><div class="first line-block">
+<div class="line">Lines <span class="red">7-12</span>: declare some marcos.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">20</span>: call the start function with no parameters, this will execute a fetch on default account (i.e &#8220;netpreserve&#8221;).</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">24</span>: schedule a fetching task every 3 seconds with the call to quartz:apply_interval/4.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">27</span>: repeat the schedule for other Twitter accounts.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Line <span class="red">32</span>: this fetching function fetch/2 will be repeatedly called by quartz:apply_interval/4 call.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Lines <span class="red">35-36</span>: use the httpc:request/4 call to send an HTTP GET request.</div>
+</div>
+</li>
+<li><div class="first line-block">
+<div class="line">Lines <span class="red">38</span>: the  Tweets are displayed (there&#8217;s no  error handling to make the code short).</div>
+</div>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="topic">
+<p class="topic-title first">Note</p>
+<div class="line-block">
+<div class="line">A more interesting <strong>Twitter</strong> example is available at: <a class="reference external" href="/quartz/twitter.erl">twitter.erl</a></div>
+<div class="line">It can be used to archive not only Tweets, but also Tweets containing <span class="boldblue">specific keywords</span>.</div>
+<div class="line">Modify it to fits your needs.</div>
+</div>
+</div>
+<div class="topic">
+<p class="topic-title first">Exercise</p>
+<div class="line-block">
+<div class="line">To keep this gem easy to read, we&#8217;re simply displaying the Tweets.</div>
+<div class="line">Use <a class="reference external" href="/wsdk/doc">WSDK</a> and save them in <strong>WARC</strong> files instead.</div>
+<div class="line"><em>Hint:</em> the variable <strong>Hdrs</strong> (line 35) contains the HTTP response headers.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install_erlang.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">QUARTZ Quick Start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">QUARTZ Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support.html">Support Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Bugs Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3rdlic.html">Third Party Libraries</a></li>
+</ul>
+<h3>API Reference</h3>
+<ul class="current">
+<b>Modules</b>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Overview</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz.html">quartz</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="api/quartz_sched.html">quartz_sched</a></li>
+<br/>
+</ul>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="support.html" title="Support Services"
+             >next</a></li>
+        <li class="right" >
+          <a href="quick_start.html" title="QUARTZ Quick Start"
+             >previous</a> |</li>
+        <li><a href="index.html">QUARTZ</a> &raquo;</li> 
+      </ul>
+    </div>
+
+    <div class="footer">
+        &copy; Copyright 2013, Aleph Archives.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+
+<!-- Adding Google Analytics to Sphinx Docs: -->
+<!-- http://ericholscher.com/blog/2009/apr/5/adding-google-analytics-sphinx-docs/ -->
+
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-18218047-3']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+
+
+  </body>
+</html>

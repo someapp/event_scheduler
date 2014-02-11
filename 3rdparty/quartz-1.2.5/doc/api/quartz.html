@@ -1,0 +1,437 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Module quartz</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module quartz</h1>
+<ul class="index"><li><a href="#description">Description</a></li><li><a href="#types">Data Types</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul>Erlang Time Manager.
+<p>Copyright © 2010-2013 ALEPH ARCHIVES Ltd. All rights reserved.</p>
+
+<p><b>Version:</b> 1.1.0</p>
+<p><b>Authors:</b> Aleph Archives Ltd. [<em>web site:</em> <tt><a href="http://aleph-archives.com/" target="_top">http://aleph-archives.com/</a></tt>].</p>
+
+<h2><a name="description">Description</a></h2><p>Erlang Time Manager.</p>
+ 
+  Scalable timing module with Unix "CRON/AT" capabilities and more.
+ 
+<h2><a name="types">Data Types</a></h2>
+
+<h3 class="typedecl"><a name="type-timer">timer()</a></h3>
+<p><tt>timer() = non_neg_integer() | {non_neg_integer(), non_neg_integer()} | {non_neg_integer(), infinity, non_neg_integer()} | {non_neg_integer(), pos_integer(), non_neg_integer()} | [non_neg_integer()]</tt></p>
+
+
+<h3 class="typedecl"><a name="type-tref">tref()</a></h3>
+<p><tt>tref() = {non_neg_integer(), reference()}</tt></p>
+
+
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#apply_after-2">apply_after/2</a></td><td>Equivalent to call apply_after('quartz', Time, Fun).</td></tr>
+<tr><td valign="top"><a href="#apply_after-3">apply_after/3</a></td><td>Evaluates Fun() on quartz TimerId server after Time amount of  
+time has elapsed.</td></tr>
+<tr><td valign="top"><a href="#apply_after-4">apply_after/4</a></td><td>Equivalent to call apply_after('quartz', Time, M, F, A).</td></tr>
+<tr><td valign="top"><a href="#apply_after-5">apply_after/5</a></td><td>Evaluates apply(Module, Function, Arguments) after Time amount of  
+time has elapsed.</td></tr>
+<tr><td valign="top"><a href="#apply_at-2">apply_at/2</a></td><td>Equivalent to quartz:apply_at('quartz',TimeSpec,Fun).</td></tr>
+<tr><td valign="top"><a href="#apply_at-3">apply_at/3</a></td><td>Evaluates Fun() once on quartz TimerId server at first occurrence  
+of datetime defined by "TimeSpec".</td></tr>
+<tr><td valign="top"><a href="#apply_at-4">apply_at/4</a></td><td>Equivalent to quartz:apply_at('quartz',TimeSpec,M,F,A).</td></tr>
+<tr><td valign="top"><a href="#apply_at-5">apply_at/5</a></td><td>Evaluates apply(TimerId,Module,Function,Arguments) once at  
+first occurrence of datetime defined by "TimeSpec".</td></tr>
+<tr><td valign="top"><a href="#apply_interval-2">apply_interval/2</a></td><td>Equivalent to call apply_interval('quartz', Time, Fun).</td></tr>
+<tr><td valign="top"><a href="#apply_interval-3">apply_interval/3</a></td><td>Evaluates Fun() on quartz TimerId server repeatedly at  
+intervals of Time.</td></tr>
+<tr><td valign="top"><a href="#apply_interval-4">apply_interval/4</a></td><td>Equivalent to call apply_interval('quartz', Time, M, F, A).</td></tr>
+<tr><td valign="top"><a href="#apply_interval-5">apply_interval/5</a></td><td>Evaluates apply(TimerId,Module,Function,Arguments) repeatedly at  
+intervals of Time.</td></tr>
+<tr><td valign="top"><a href="#cancel-1">cancel/1</a></td><td>Equivalent to cancel('quartz', TimerRef).</td></tr>
+<tr><td valign="top"><a href="#cancel-2">cancel/2</a></td><td>Cancels a previously requested timeout.</td></tr>
+<tr><td valign="top"><a href="#cancel_all-0">cancel_all/0</a></td><td>Equivalent to cancel_call('quartz').</td></tr>
+<tr><td valign="top"><a href="#cancel_all-1">cancel_all/1</a></td><td>Cancels all the scheduled jobs for quartz named "TimerId".</td></tr>
+<tr><td valign="top"><a href="#exit_after-2">exit_after/2</a></td><td>Equivalent to exit_after(Time, self(), Reason).</td></tr>
+<tr><td valign="top"><a href="#exit_after-3">exit_after/3</a></td><td>Equivalent to exit_after('quartz', Time, Pid, Reason).</td></tr>
+<tr><td valign="top"><a href="#exit_after-4">exit_after/4</a></td><td>Send an exit signal with reason Reason1 to pid Pid.</td></tr>
+<tr><td valign="top"><a href="#kill_after-1">kill_after/1</a></td><td>Equivalent to kill_after('quartz', Time, self(), kill).</td></tr>
+<tr><td valign="top"><a href="#kill_after-2">kill_after/2</a></td><td>Equivalent to kill_after('quartz', Time, Pid, kill).</td></tr>
+<tr><td valign="top"><a href="#kill_after-3">kill_after/3</a></td><td>Same as exit_after(TimerId, Time, Pid, kill).</td></tr>
+<tr><td valign="top"><a href="#localtime-0">localtime/0</a></td><td>Returns the current local date and time {{Year, Month, Day}, {Hour, Minute, Second}}.</td></tr>
+<tr><td valign="top"><a href="#now-0">now/0</a></td><td>Returns the tuple {MegaSecs, Secs, MicroSecs} which is the
+  elapsed time since 00:00 GMT, January 1, 1970 (zero hour).</td></tr>
+<tr><td valign="top"><a href="#revision-0">revision/0</a></td><td>Returns the current QUARTZ revision number.</td></tr>
+<tr><td valign="top"><a href="#schedule-2">schedule/2</a></td><td>Equivalent to quartz:schedule('quartz',TimeSpec,Fun]).</td></tr>
+<tr><td valign="top"><a href="#schedule-3">schedule/3</a></td><td>Evaluates Fun() on quartz TimerId server repeatedly at  
+intervals of "TimeSpec" as defined in module "quartz_sched".</td></tr>
+<tr><td valign="top"><a href="#schedule-4">schedule/4</a></td><td>Equivalent to quartz:schedule('quartz',TimeSpec,atom(),atom(),[term()]).</td></tr>
+<tr><td valign="top"><a href="#schedule-5">schedule/5</a></td><td>Evaluates apply(TimerId,Module,Function,Arguments) repeatedly at
+  intervals of "TimeSpec" as defined in module "quartz_sched".</td></tr>
+<tr><td valign="top"><a href="#send_after-2">send_after/2</a></td><td>Equivalent to send_after(Time, self(), Message).</td></tr>
+<tr><td valign="top"><a href="#send_after-3">send_after/3</a></td><td>Equivalent to send_after('quartz', Time, Pid, Message).</td></tr>
+<tr><td valign="top"><a href="#send_after-4">send_after/4</a></td><td>Evaluates Pid !</td></tr>
+<tr><td valign="top"><a href="#send_interval-2">send_interval/2</a></td><td>Equivalent to send_interval(Time, self(), Message).</td></tr>
+<tr><td valign="top"><a href="#send_interval-3">send_interval/3</a></td><td>Equivalent to send_interval('quartz', Time, Pid, Message).</td></tr>
+<tr><td valign="top"><a href="#send_interval-4">send_interval/4</a></td><td>Evaluates Pid !</td></tr>
+<tr><td valign="top"><a href="#start_link-0">start_link/0</a></td><td>Equivalent to: start_link('quartz').</td></tr>
+<tr><td valign="top"><a href="#start_link-1">start_link/1</a></td><td>Equivalent to start_link(TimerId, false).</td></tr>
+<tr><td valign="top"><a href="#start_link-2">start_link/2</a></td><td>Start a named QUARTZ time server "TimerId" and link it or not  
+to the calling process.</td></tr>
+<tr><td valign="top"><a href="#stop-0">stop/0</a></td><td>Equivalent to stop(?MODULE).</td></tr>
+<tr><td valign="top"><a href="#stop-1">stop/1</a></td><td>Stop the quartz namespace "Pid".</td></tr>
+<tr><td valign="top"><a href="#tc-1">tc/1</a></td><td>Evaluates Fun().</td></tr>
+<tr><td valign="top"><a href="#tc-2">tc/2</a></td><td>Evaluates apply(Fun, Arguments).</td></tr>
+<tr><td valign="top"><a href="#tc-3">tc/3</a></td><td>Evaluates apply(Module, Function, Arguments) and measures the elapsed real time as reported by os:timestamp/0.</td></tr>
+<tr><td valign="top"><a href="#timestamp-0">timestamp/0</a></td><td>Returns a tuple in the same format as erlang:now/0.</td></tr>
+<tr><td valign="top"><a href="#universaltime-0">universaltime/0</a></td><td>Returns the current date and time according to Universal Time
+  Coordinated (UTC), also called GMT.</td></tr>
+<tr><td valign="top"><a href="#version-0">version/0</a></td><td>Returns the current QUARTZ version number.</td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="apply_after-2">apply_after/2</a></h3>
+<div class="spec">
+<p><tt>apply_after(Time::non_neg_integer(), Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg}</tt><br></p>
+</div><p>Equivalent to call apply_after('quartz', Time, Fun).</p>
+
+<h3 class="function"><a name="apply_after-3">apply_after/3</a></h3>
+<div class="spec">
+<p><tt>apply_after(TimerId::pid() | atom(), Time::non_neg_integer(), Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg}</tt><br></p>
+</div><p><p>Evaluates Fun() on quartz TimerId server after Time amount of  
+time has elapsed. Returns {ok, TRef} | {error, Reason}.</p>
+ 
+  Just like timer:apply_after/4 but also supports "fun()" instead
+  of M,F,A.</p>
+
+<h3 class="function"><a name="apply_after-4">apply_after/4</a></h3>
+<div class="spec">
+<p><tt>apply_after(Time::non_neg_integer(), M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg}</tt><br></p>
+</div><p>Equivalent to call apply_after('quartz', Time, M, F, A).</p>
+
+<h3 class="function"><a name="apply_after-5">apply_after/5</a></h3>
+<div class="spec">
+<p><tt>apply_after(TimerId::pid() | atom(), Time::non_neg_integer(), M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg}</tt><br></p>
+</div><p><p>Evaluates apply(Module, Function, Arguments) after Time amount of  
+time has elapsed. Returns {ok, TRef} | {error, Reason}.</p>
+ 
+  Just like timer:apply_after/4 but also supports "fun()" instead
+  of M,F,A.</p>
+
+<h3 class="function"><a name="apply_at-2">apply_at/2</a></h3>
+<div class="spec">
+<p><tt>apply_at(TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a>, Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Equivalent to quartz:apply_at('quartz',TimeSpec,Fun).</p>
+
+<h3 class="function"><a name="apply_at-3">apply_at/3</a></h3>
+<div class="spec">
+<p><tt>apply_at(TimerId::pid() | atom(), TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a>, Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Evaluates Fun() once on quartz TimerId server at first occurrence  
+of datetime defined by "TimeSpec".  
+Returns {ok, TRef} | {error, Reason}.</p>
+ 
+  This call mimics the behaviour of the Unix command <a href="http://linux.about.com/library/cmd/blcmdl1_at.htm" target="_blank">at</a>.
+ </p>
+<p><b>See also:</b> <a href="quartz_sched.html#type-sched">quartz_sched:sched()</a>.</p>
+
+<h3 class="function"><a name="apply_at-4">apply_at/4</a></h3>
+<div class="spec">
+<p><tt>apply_at(TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a>, M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Equivalent to quartz:apply_at('quartz',TimeSpec,M,F,A).</p>
+
+<h3 class="function"><a name="apply_at-5">apply_at/5</a></h3>
+<div class="spec">
+<p><tt>apply_at(TimerId::pid() | atom(), TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a>, M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Evaluates apply(TimerId,Module,Function,Arguments) once at  
+first occurrence of datetime defined by "TimeSpec".  
+Returns {ok, TRef} | {error, Reason}.</p>
+ 
+  This call mimics the behaviour of the Unix command <a href="http://linux.about.com/library/cmd/blcmdl1_at.htm" target="_blank">at</a>.
+ </p>
+<p><b>See also:</b> <a href="quartz_sched.html#type-sched">quartz_sched:sched()</a>.</p>
+
+<h3 class="function"><a name="apply_interval-2">apply_interval/2</a></h3>
+<div class="spec">
+<p><tt>apply_interval(Time::<a href="#type-timer">timer()</a>, Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg} | {error, no_pid}</tt><br></p>
+</div><p><p>Equivalent to call apply_interval('quartz', Time, Fun).</p>
+ 
+  Just like timer:apply_interval/4, but also supports "fun()" instead
+  of an M,F,A.</p>
+
+<h3 class="function"><a name="apply_interval-3">apply_interval/3</a></h3>
+<div class="spec">
+<p><tt>apply_interval(TimerId::pid() | atom(), Time::<a href="#type-timer">timer()</a>, Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg} | {error, no_pid}</tt><br></p>
+</div><p><p>Evaluates Fun() on quartz TimerId server repeatedly at  
+intervals of Time. Returns {ok, TRef} | {error, Reason}.</p>
+ 
+  Support <b>advanced "repetition"</b> modes:
+  <ul>
+   <li>quartz:apply_interval(TimerId,{Time,RepeatAfter},M,F,A)</li>
+   <li>quartz:apply_interval(TimerId,{Time,'infinity',RepeatAfter},M,F,A)</li>
+   <li>quartz:apply_interval(TimerId,{Time,RepeatCount,RepeatAfter},M,F,A)</li>
+   <li>quartz:apply_interval(TimerId, [T1,T2,T3|...],M,F,A)</li>
+  </ul></p>
+
+<h3 class="function"><a name="apply_interval-4">apply_interval/4</a></h3>
+<div class="spec">
+<p><tt>apply_interval(Time::<a href="#type-timer">timer()</a>, M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg} | {error, no_pid}</tt><br></p>
+</div><p><p>Equivalent to call apply_interval('quartz', Time, M, F, A).</p>
+ 
+  Just like timer:apply_interval/4.</p>
+
+<h3 class="function"><a name="apply_interval-5">apply_interval/5</a></h3>
+<div class="spec">
+<p><tt>apply_interval(TimerId::pid() | atom(), Time::<a href="#type-timer">timer()</a>, M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, badarg} | {error, no_pid}</tt><br></p>
+</div><p><p>Evaluates apply(TimerId,Module,Function,Arguments) repeatedly at  
+intervals of Time. Returns {ok, TRef} | {error, Reason}.</p>
+ 
+  Support <b>advanced "repetition"</b> modes:
+  <ul>
+   <li>quartz:apply_interval(TimerId,{Time,RepeatAfter},M,F,A)</li>
+   <li>quartz:apply_interval(TimerId,{Time,'infinity',RepeatAfter},M,F,A)</li>
+   <li>quartz:apply_interval(TimerId,{Time,RepeatCount,RepeatAfter},M,F,A)</li>
+   <li>quartz:apply_interval(TimerId, [T1,T2,T3|...],M,F,A)</li>
+  </ul>
+ </p>
+
+<h3 class="function"><a name="cancel-1">cancel/1</a></h3>
+<div class="spec">
+<p><tt>cancel(BRef::<a href="#type-tref">tref()</a>) -&gt; ok | {error, term()}</tt><br></p>
+</div><p>Equivalent to cancel('quartz', TimerRef).
+  Just like timer:cancel/1.</p>
+
+<h3 class="function"><a name="cancel-2">cancel/2</a></h3>
+<div class="spec">
+<p><tt>cancel(TimerId::pid() | atom(), BRef::<a href="#type-tref">tref()</a>) -&gt; cancel | {error, term()}</tt><br></p>
+</div><p>Cancels a previously requested timeout. TRef is a unique timer reference returned by the timer function in question. Returns {ok, cancel}, or {error, Reason} when TRef is not a timer reference.
+ </p>
+
+<h3 class="function"><a name="cancel_all-0">cancel_all/0</a></h3>
+<div class="spec">
+<p><tt>cancel_all() -&gt; ok | {error, term()}</tt><br></p>
+</div><p>Equivalent to cancel_call('quartz').</p>
+
+<h3 class="function"><a name="cancel_all-1">cancel_all/1</a></h3>
+<div class="spec">
+<p><tt>cancel_all(TimerId::pid() | atom()) -&gt; ok | {error, term()}</tt><br></p>
+</div><p>Cancels all the scheduled jobs for quartz named "TimerId".</p>
+
+<h3 class="function"><a name="exit_after-2">exit_after/2</a></h3>
+<div class="spec">
+<p><tt>exit_after(Time::non_neg_integer(), Reason::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to exit_after(Time, self(), Reason).</p>
+ 
+  Just like timer:exit_after/2.</p>
+
+<h3 class="function"><a name="exit_after-3">exit_after/3</a></h3>
+<div class="spec">
+<p><tt>exit_after(Time::non_neg_integer(), Pid::pid(), Reason::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Equivalent to exit_after('quartz', Time, Pid, Reason).
+  Just like timer:exit_after/3.</p>
+
+<h3 class="function"><a name="exit_after-4">exit_after/4</a></h3>
+<div class="spec">
+<p><tt>exit_after(TimerId::pid() | atom(), Time::non_neg_integer(), Pid::pid(), Reason::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Send an exit signal with reason Reason1 to pid Pid.
+  Returns {ok, TRef}, or {error, Reason2}.</p>
+
+<h3 class="function"><a name="kill_after-1">kill_after/1</a></h3>
+<div class="spec">
+<p><tt>kill_after(Time::non_neg_integer()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to kill_after('quartz', Time, self(), kill).</p>
+ 
+  Just like timer:kill_after/1.</p>
+
+<h3 class="function"><a name="kill_after-2">kill_after/2</a></h3>
+<div class="spec">
+<p><tt>kill_after(Time::non_neg_integer(), Pid::pid()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to kill_after('quartz', Time, Pid, kill).</p>
+ 
+  Just like timer:kill_after/2.</p>
+
+<h3 class="function"><a name="kill_after-3">kill_after/3</a></h3>
+<div class="spec">
+<p><tt>kill_after(TimerId::pid() | atom(), Time::non_neg_integer(), Pid::pid()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Same as exit_after(TimerId, Time, Pid, kill).</p>
+ 
+  Just like timer:kill_after/2.</p>
+
+<h3 class="function"><a name="localtime-0">localtime/0</a></h3>
+<div class="spec">
+<p><tt>localtime() -&gt; <a href="calendar.html#type-datetime">calendar:datetime()</a></tt><br></p>
+</div><p>Returns the current local date and time {{Year, Month, Day}, {Hour, Minute, Second}}.
+  Wrapper around erlang:localtime/0.</p>
+
+<h3 class="function"><a name="now-0">now/0</a></h3>
+<div class="spec">
+<p><tt>now() -&gt; <a href="erlang.html#type-timestamp">erlang:timestamp()</a></tt><br></p>
+</div><p>Returns the tuple {MegaSecs, Secs, MicroSecs} which is the
+  elapsed time since 00:00 GMT, January 1, 1970 (zero hour).
+  Wrapper around erlang:now/0.</p>
+
+<h3 class="function"><a name="revision-0">revision/0</a></h3>
+<div class="spec">
+<p><tt>revision() -&gt; string()</tt><br></p>
+</div><p>Returns the current QUARTZ revision number.</p>
+
+<h3 class="function"><a name="schedule-2">schedule/2</a></h3>
+<div class="spec">
+<p><tt>schedule(TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a>, Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Equivalent to quartz:schedule('quartz',TimeSpec,Fun]).</p>
+
+<h3 class="function"><a name="schedule-3">schedule/3</a></h3>
+<div class="spec">
+<p><tt>schedule(TimerId::pid() | atom(), TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a> | {after_ms, non_neg_integer()}, Fun::function()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Evaluates Fun() on quartz TimerId server repeatedly at  
+intervals of "TimeSpec" as defined in module "quartz_sched".</p>
+ 
+  Returns {ok, TRef} | {error, Reason}.</p>
+<p><b>See also:</b> <a href="quartz_sched.html#type-sched">quartz_sched:sched()</a>.</p>
+
+<h3 class="function"><a name="schedule-4">schedule/4</a></h3>
+<div class="spec">
+<p><tt>schedule(TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a> | {after_ms, non_neg_integer()}, M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Equivalent to quartz:schedule('quartz',TimeSpec,atom(),atom(),[term()]).</p>
+
+<h3 class="function"><a name="schedule-5">schedule/5</a></h3>
+<div class="spec">
+<p><tt>schedule(TimerId::pid() | atom(), TimeSpec::<a href="quartz_sched.html#type-timespec">quartz_sched:timespec()</a> | {after_ms, non_neg_integer()}, M::atom(), F::atom(), A::[term()]) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Evaluates apply(TimerId,Module,Function,Arguments) repeatedly at
+  intervals of "TimeSpec" as defined in module "quartz_sched".
+  Returns {ok, TRef} | {error, Reason}.</p>
+<p><b>See also:</b> <a href="quartz_sched.html#type-sched">quartz_sched:sched()</a>.</p>
+
+<h3 class="function"><a name="send_after-2">send_after/2</a></h3>
+<div class="spec">
+<p><tt>send_after(Time::non_neg_integer(), Message::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to send_after(Time, self(), Message).</p>
+ 
+  Just like timer:send_after/2.</p>
+
+<h3 class="function"><a name="send_after-3">send_after/3</a></h3>
+<div class="spec">
+<p><tt>send_after(Time::non_neg_integer(), Pid::pid(), Message::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to send_after('quartz', Time, Pid, Message).</p>
+ 
+  Just like timer:send_after/3.</p>
+
+<h3 class="function"><a name="send_after-4">send_after/4</a></h3>
+<div class="spec">
+<p><tt>send_after(TimerId::pid() | atom(), Time::non_neg_integer(), Pid::pid(), Message::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p>Evaluates Pid ! Message after Time amount of time has elapsed.
+  (Pid can also be an atom of a registered name.) Returns {ok, TRef},
+  or {error, Reason}.</p>
+
+<h3 class="function"><a name="send_interval-2">send_interval/2</a></h3>
+<div class="spec">
+<p><tt>send_interval(Time::non_neg_integer(), Message::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to send_interval(Time, self(), Message).</p>
+ 
+  Just like timer:send_interval/2.</p>
+
+<h3 class="function"><a name="send_interval-3">send_interval/3</a></h3>
+<div class="spec">
+<p><tt>send_interval(Time::non_neg_integer(), Pid::pid(), Message::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Equivalent to send_interval('quartz', Time, Pid, Message).</p>
+ 
+  Just like timer:send_interval/3.</p>
+
+<h3 class="function"><a name="send_interval-4">send_interval/4</a></h3>
+<div class="spec">
+<p><tt>send_interval(TimerId::pid() | atom(), Time::non_neg_integer(), Pid::pid(), Message::term()) -&gt; {ok, <a href="#type-tref">tref()</a>} | {error, term()}</tt><br></p>
+</div><p><p>Evaluates Pid ! Message repeatedly after Time amount of time  
+has elapsed. (Pid can also be an atom of a registered name).  
+Returns {ok, TRef} or {error, Reason}.</p>
+ 
+  Support <b>advanced "repetition"</b> modes:
+  <ul>
+   <li>quartz:send_interval({Time,RepeatAfter},Pid,Msg)</li>
+   <li>quartz:send_interval({Time,'infinity',RepeatAfter},Pid,Msg)</li>
+   <li>quartz:send_interval({Time,RepeatCount,RepeatAfter},Pid,Msg)</li>
+   <li>quartz:send_interval([T1,T2,T3|...],Pid,Msg)</li>
+  </ul></p>
+
+<h3 class="function"><a name="start_link-0">start_link/0</a></h3>
+<div class="spec">
+<p><tt>start_link() -&gt; {ok, pid()}</tt><br></p>
+</div><p>Equivalent to: start_link('quartz').</p>
+
+<h3 class="function"><a name="start_link-1">start_link/1</a></h3>
+<div class="spec">
+<p><tt>start_link(TimerId::atom()) -&gt; {ok, pid()}</tt><br></p>
+</div><p>Equivalent to start_link(TimerId, false).</p>
+
+<h3 class="function"><a name="start_link-2">start_link/2</a></h3>
+<div class="spec">
+<p><tt>start_link(TimerId::atom(), Link::boolean()) -&gt; {ok, pid()}</tt><br></p>
+</div><p><p>Start a named QUARTZ time server "TimerId" and link it or not  
+to the calling process.</p>
+ 
+  The Link argument specifies if Quartz should link to the calling
+  process or not (default false). If Link equals 'true',
+  and the caller dies after successfully scheduling some tasks
+  (via apply_interval, apply_at, etc.), all these tasks will be
+  unscheduled (i.e deleted and more no executed).</p>
+
+<h3 class="function"><a name="stop-0">stop/0</a></h3>
+<div class="spec">
+<p><tt>stop() -&gt; ok</tt><br></p>
+</div><p>Equivalent to stop(?MODULE).</p>
+
+<h3 class="function"><a name="stop-1">stop/1</a></h3>
+<div class="spec">
+<p><tt>stop(Pid::pid() | atom()) -&gt; ok</tt><br></p>
+</div><p>Stop the quartz namespace "Pid".</p>
+
+<h3 class="function"><a name="tc-1">tc/1</a></h3>
+<div class="spec">
+<p><tt>tc(Fun::function()) -&gt; {non_neg_integer(), term()}</tt><br></p>
+</div><p><p>Evaluates Fun(). Otherwise works like tc/2.</p>
+ 
+  Just like timer:tc/1.</p>
+
+<h3 class="function"><a name="tc-2">tc/2</a></h3>
+<div class="spec">
+<p><tt>tc(Fun::function(), Args::[term()]) -&gt; {non_neg_integer(), term()}</tt><br></p>
+</div><p><p>Evaluates apply(Fun, Arguments). Otherwise works like tc/3.</p>
+ 
+  Just like timer:tc/2.</p>
+
+<h3 class="function"><a name="tc-3">tc/3</a></h3>
+<div class="spec">
+<p><tt>tc(M::atom(), F::atom(), A::[term()]) -&gt; {non_neg_integer(), term()}</tt><br></p>
+</div><p><p>Evaluates apply(Module, Function, Arguments) and measures the elapsed real time as reported by os:timestamp/0.</p>
+ 
+  <p>Returns {Time, Value}, where Time is the elapsed real time in microseconds, and Value is what is returned from the apply.</p>
+ 
+  Just like timer:tc/3.</p>
+
+<h3 class="function"><a name="timestamp-0">timestamp/0</a></h3>
+<div class="spec">
+<p><tt>timestamp() -&gt; <a href="erlang.html#type-timestamp">erlang:timestamp()</a></tt><br></p>
+</div><p>Returns a tuple in the same format as erlang:now/0. The
+  difference is that this function returns what the operating system
+  thinks (a.k.a. the wall clock time) without any attempts at time
+  correction. The result of two different calls to this function is
+  not guaranteed to be different.
+  Wrapper around os:timestamp/0.</p>
+
+<h3 class="function"><a name="universaltime-0">universaltime/0</a></h3>
+<div class="spec">
+<p><tt>universaltime() -&gt; <a href="calendar.html#type-datetime">calendar:datetime()</a></tt><br></p>
+</div><p>Returns the current date and time according to Universal Time
+  Coordinated (UTC), also called GMT.
+  Wrapper around erlang:universaltime/0.</p>
+
+<h3 class="function"><a name="version-0">version/0</a></h3>
+<div class="spec">
+<p><tt>version() -&gt; string()</tt><br></p>
+</div><p>Returns the current QUARTZ version number.</p>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc, Jun 3 2013, 02:20:35.</i></p>
+</body>
+</html>
